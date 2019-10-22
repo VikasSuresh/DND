@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-
+import './Home.css';
 class Home extends Component{
     state={
         tasks:[
@@ -58,7 +58,7 @@ class Home extends Component{
             <div className='container'>
                 <h2 className="header" style={{textAlign:"center"}}>DRAG & DROP</h2> 
                 <div className='row'>                       
-                    <div className='col-sm-6'
+                    <div className='col-sm-6 NotCompleted'
                         onDragOver={(e)=>e.preventDefault()}
                         onDrop={(e)=>this.Drop(e,"nc")} 
                         style={{textAlign:"center"}}                         
@@ -66,7 +66,7 @@ class Home extends Component{
                         <span className='task-header'>Todo</span>
                         {tasks.nc}
                     </div>
-                    <div className='col-sm-6'
+                    <div className='col-sm-6 Completed'
                         onDragOver={(e)=>e.preventDefault()}
                         onDrop={(e)=>this.Drop(e,"c")} 
                         style={{textAlign:"center"}}                                     
