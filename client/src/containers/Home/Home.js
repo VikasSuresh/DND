@@ -1,4 +1,6 @@
 import React,{ Component } from "react";
+// import {  } from "mobx";
+import Add from "../../components/AddTodo";
 import './Home.css';
 class Home extends Component{
     state={
@@ -35,6 +37,22 @@ class Home extends Component{
         })
                 
     }
+
+    addTask=(name)=>{
+        console.log(name)
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                tasks:[
+                    ...prevState.tasks,
+                    {
+                        name:name,
+                        cat:'nc'
+                    }
+                ]
+            }
+        })
+    }
     render(){        
         let tasks={
             nc:[],
@@ -57,6 +75,7 @@ class Home extends Component{
         return(
             <div className='container'>
                 <h2 className="header" style={{textAlign:"center"}}>DRAG & DROP</h2> 
+                <Add add={this.addTask} />
                 <div className='row'>                       
                     <div className='col-sm-6 NotCompleted'
                         onDragOver={(e)=>e.preventDefault()}
