@@ -2,9 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
+import list from "./store/reducer";
+import { Provider } from "mobx-react";
+console.log(list)
 ReactDOM.render(
-    <Router>
-        <App/>    
-    </Router>,
+    <Provider list={list}>
+        <Router>
+            <App/>    
+        </Router>
+    </Provider>,
     document.getElementById('root')
 );
