@@ -9,8 +9,7 @@ class Add extends React.Component{
            input:e.target.value
        })
     }
-    submit=(e)=>{
-        console.log(this.state.input)
+    submit=(e)=>{        
         this.props.add(this.state.input)
     }
     render(){

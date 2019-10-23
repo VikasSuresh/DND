@@ -4,7 +4,6 @@ import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import list from "./store/reducer";
 import { Provider } from "mobx-react";
-console.log(list)
 ReactDOM.render(
     <Provider list={list}>
         <Router>

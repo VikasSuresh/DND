@@ -1,24 +1,46 @@
 import { observable, action } from "mobx";
 
 class List{
-    
-    id=Math.random();
-    @observable cat='NC';
-    @observable name='Vikas'
-
-    constructor(name,cat){
-        this.name=name;
-        this.cat=cat;
-    }
+    @observable tasks=[]    
 
     @action 
     fetchData(){
         fetch('http://localhost:1000/')
-            .then(({result})=>{
-                console.log(result)
-            })
+            .then((result)=>{
+                return result.json()
+            }).then(({result})=>{
+                result.forEach(element => {
+                    this.tasks.push(element)    
+                });            
+            })     
             .catch(err=>console.log(err))
     }
+    
+    
+    @action
+    addTask=(name)=>{        
+        this.tasks.push({
+            id:Math.random(),
+            name:name,
+            cat:'nc'
+        })
+    }
+    @action
+    dragStart=(e,id)=>{                 
+        e.dataTransfer.setData('id',id)
+    }
+    @action
+    drop=(e,cat)=>{
+        let id=e.dataTransfer.getData('id')            
+        this.tasks.filter(t=>{
+            if(String(t.id)===id){
+                t.cat=cat
+            }               
+            return t         
+        })                        
+    }    
+    
 }
 
-export default List;
+const list=new List();
+export default list;
