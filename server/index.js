@@ -1,31 +1,15 @@
 const express=require('express');
 const cors=require('cors');
 const app= express();
-app.use(cors())
+const todoroute =require('./routes/todoroute')
 
-app.get('/',(req,res)=>{
-    res.send({
-        result:[
-            {
-                id:Math.random(),
-                name:'1',
-                cat:false
-            },
-            {
-                id:Math.random(),
-                name:'2',
-                cat:false
-            },
-            {
-                id:Math.random(),
-                name:'3',
-                cat:true   
-            }
-        ]        
-    })
-})
+
+app.use(cors())
+app.use(express.json())
+require('./startup/db')();
+app.use('/',todoroute)
 
 
 app.listen(1000,()=>{
-    console.log('Connected')
+    console.log('Connected to Port')
 })

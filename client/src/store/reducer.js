@@ -1,14 +1,16 @@
 import { observable, action } from "mobx";
+import axios from "axios";
+const API='http://localhost:1000/'
 
 class List{
     @observable tasks=[]    
 
     @action 
     fetchData(){
-        fetch('http://localhost:1000/')
+        fetch(API)
             .then((result)=>{
                 return result.json()
-            }).then(({result})=>{
+            }).then(({result})=>{                
                 result.forEach(element => {
                     this.tasks.push(element)    
                 });            
@@ -19,11 +21,11 @@ class List{
     
     @action
     addTask=(name)=>{        
-        this.tasks.push({
-            id:Math.random(),
-            name:name,
-            cat:false
-        })
+        axios.post(`${API}add`,{name:name})
+            .then(({data})=>{
+                this.tasks.push(data.todo)
+            })
+            .catch(err=>console.log(err))  
     }
     @action
     dragStart=(e,id)=>{                 
@@ -33,8 +35,10 @@ class List{
     drop=(e,cat)=>{        
         let id=e.dataTransfer.getData('id')            
         this.tasks.filter(t=>{
-            if(String(t.id)===id){
-                t.cat=cat
+            if(t._id===id && t.cat!==cat){                
+                axios.put(`${API}edit`,{id:id,cat:cat})
+                    .catch(err=>console.log(err))                        
+                t.cat=cat                
             }               
             return t         
         })                        

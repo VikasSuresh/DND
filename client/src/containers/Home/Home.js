@@ -19,9 +19,9 @@ class Home extends Component{
             this.props.list.tasks.forEach(task => {                
                 if(task.cat){
                     tasks.c.push(
-                        <div key={task.id}
+                        <div key={task._id}
                             draggable
-                            onDragStart={(e)=>this.props.list.dragStart(e,task.id)}
+                            onDragStart={(e)=>this.props.list.dragStart(e,task._id)}
                             className='draggable'
                             style={{color:'green'}}
                         >
@@ -29,9 +29,9 @@ class Home extends Component{
                         </div>)
                 }else{
                     tasks.nc.push(
-                        <div key={task.id}
+                        <div key={task._id}
                             draggable
-                            onDragStart={(e)=>this.props.list.dragStart(e,task.id)}
+                            onDragStart={(e)=>this.props.list.dragStart(e,task._id)}
                             className='draggable'
                             style={{color:'red'}}
                         >
@@ -39,8 +39,7 @@ class Home extends Component{
                         </div>
                     )
                 }
-            });
-    
+            });            
             return(
                 <div className='container'>
                     <h2 className="header" style={{textAlign:"center"}}>DRAG & DROP</h2> 
