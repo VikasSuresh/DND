@@ -22,7 +22,7 @@ class List{
         this.tasks.push({
             id:Math.random(),
             name:name,
-            cat:'nc'
+            cat:false
         })
     }
     @action
@@ -30,7 +30,7 @@ class List{
         e.dataTransfer.setData('id',id)
     }
     @action
-    drop=(e,cat)=>{
+    drop=(e,cat)=>{        
         let id=e.dataTransfer.getData('id')            
         this.tasks.filter(t=>{
             if(String(t.id)===id){

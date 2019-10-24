@@ -9,17 +9,17 @@ app.get('/',(req,res)=>{
             {
                 id:Math.random(),
                 name:'1',
-                cat:'nc'
+                cat:false
             },
             {
                 id:Math.random(),
                 name:'2',
-                cat:'nc'
+                cat:false
             },
             {
                 id:Math.random(),
                 name:'3',
-                cat:'c'   
+                cat:true   
             }
         ]        
     })

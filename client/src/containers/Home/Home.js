@@ -17,16 +17,28 @@ class Home extends Component{
         }        
         if(this.props.list.tasks.length!==[]){
             this.props.list.tasks.forEach(task => {                
-                tasks[task.cat].push(
-                    <div key={task.id}
-                        draggable
-                        onDragStart={(e)=>this.props.list.dragStart(e,task.id)}
-                        className='draggable'
-                        style={task.cat==='nc'?{color:'red'}:{color:'green'}}
-                    >
-                        {task.name}
-                    </div>
-                )
+                if(task.cat){
+                    tasks.c.push(
+                        <div key={task.id}
+                            draggable
+                            onDragStart={(e)=>this.props.list.dragStart(e,task.id)}
+                            className='draggable'
+                            style={{color:'green'}}
+                        >
+                            {task.name}
+                        </div>)
+                }else{
+                    tasks.nc.push(
+                        <div key={task.id}
+                            draggable
+                            onDragStart={(e)=>this.props.list.dragStart(e,task.id)}
+                            className='draggable'
+                            style={{color:'red'}}
+                        >
+                            {task.name}
+                        </div>
+                    )
+                }
             });
     
             return(
@@ -36,7 +48,7 @@ class Home extends Component{
                     <div className='row'>                       
                         <div className='col-sm-6 NotCompleted'
                             onDragOver={(e)=>e.preventDefault()}
-                            onDrop={(e)=>this.props.list.drop(e,"nc")} 
+                            onDrop={(e)=>this.props.list.drop(e,false)} 
                             style={{textAlign:"center"}}                         
                         >
                             <span className='task-header'>Todo</span>
@@ -44,7 +56,7 @@ class Home extends Component{
                         </div>
                         <div className='col-sm-6 Completed'
                             onDragOver={(e)=>e.preventDefault()}
-                            onDrop={(e)=>this.props.list.drop(e,"c")} 
+                            onDrop={(e)=>this.props.list.drop(e,true)} 
                             style={{textAlign:"center"}}                                     
                         >
                             <span className='task-header'>Completed</span>
