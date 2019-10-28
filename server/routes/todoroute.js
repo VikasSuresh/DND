@@ -26,4 +26,9 @@ router.put('/edit',(req,res)=>{
         .catch(err=>res.send(err))
 })
 
+router.delete('/del',(req,res)=>{
+    Todo.deleteOne({_id:req.body.id})
+        .catch(err=>res.send(err))
+})
+
 module.exports =router;

@@ -25,7 +25,8 @@ class Home extends Component{
                             className='draggable'
                             style={{color:'green'}}
                         >
-                            {task.name}
+                            {task.name} 
+                            <span onClick={(e)=>this.props.list.del(e,task._id)} style={{float:"right",color:"black"}}>x</span>
                         </div>)
                 }else{
                     tasks.nc.push(
@@ -36,6 +37,7 @@ class Home extends Component{
                             style={{color:'red'}}
                         >
                             {task.name}
+                            <span onClick={(e)=>this.props.list.del(e,task._id)} style={{float:"right",color:"black"}}>x</span>
                         </div>
                     )
                 }

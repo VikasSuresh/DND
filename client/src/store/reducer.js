@@ -42,7 +42,18 @@ class List{
             }               
             return t         
         })                        
-    }    
+    }  
+    @action
+    del=(e,id)=>{        
+        axios.delete(`${API}del`,{data:{id:id}})
+            .catch(err=>console.log(err))
+        this.tasks.forEach((a,i)=>{
+            if(a._id===id){
+                this.tasks.splice(i,1)
+            }
+        })
+                
+    }  
     
 }
 
