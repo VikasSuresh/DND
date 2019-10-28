@@ -23,12 +23,13 @@ router.put('/edit',(req,res)=>{
             data.cat=req.body.cat
             data.save()
         })
-        .catch(err=>res.send(err))
+        .catch(err=>console.log(err))
 })
 
 router.delete('/del',(req,res)=>{
     Todo.deleteOne({_id:req.body.id})
-        .catch(err=>res.send(err))
+        .then(()=>res.send(true))
+        .catch(err=>console.log(err))
 })
 
 module.exports =router;

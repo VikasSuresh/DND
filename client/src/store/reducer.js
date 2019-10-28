@@ -46,12 +46,14 @@ class List{
     @action
     del=(e,id)=>{        
         axios.delete(`${API}del`,{data:{id:id}})
-            .catch(err=>console.log(err))
-        this.tasks.forEach((a,i)=>{
-            if(a._id===id){
-                this.tasks.splice(i,1)
-            }
-        })
+            .then(()=>{
+                this.tasks.forEach((a,i)=>{
+                    if(a._id===id){
+                        this.tasks.splice(i,1)
+                    }
+                })
+            })
+            .catch(err=>console.log(err))        
                 
     }  
     
