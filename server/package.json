@@ -8,7 +8,7 @@
     "start": "concurrently \"nodemon index.js\" \"cd .. && cd client && npm start\""
   },
   "keywords": [],
-  "author": "",
+  "author": "VikasSuresh",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^5.1.0",
