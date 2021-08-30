@@ -1,15 +1,14 @@
 import { Component } from "react";
 import { BrowserRouter as Router, Switch,Route } from "react-router-dom";
-
-
-class App extends Component{
+import { Home } from "./Screens";
+class App extends Component<any,any>{
   render(){
     return(
-      <Switch>
           <Router >
-            <Route path="/" component={Home} />
+            <Switch>
+              <Route path="/" component={Home} />
+            </Switch>
           </Router>
-      </Switch>
     )
   }
 }
