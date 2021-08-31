@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import Store from "../../Store";
+import {AddTask} from "../../Components";
 
 interface Task {
     task: string,
@@ -24,16 +25,15 @@ export const Home = observer(() => {
     // },[])
 
      useEffect(()=>{
-       setTimeout(()=>{
         Store.fetch()
-       },2000)
     },[])
 
-    const submit = (e:any) =>{
-        e.preventDefault();
-        Store.addToDo({
-           task:"C"
-       })
+    function submit(task:string) {
+        if(task){
+            Store.addToDo({
+                task
+            })      
+        }
     }
 
     let not = Store.notCompleted
@@ -42,9 +42,9 @@ export const Home = observer(() => {
 
     return(
         <div>
+           <AddTask addToDo = {submit.bind(this)}/>
            <h1>Pending:{not}</h1>
            <h1>Completed:{done}</h1>
-           <button type='submit' onClick={submit}>ADD</button>
         </div>
     )
 })
