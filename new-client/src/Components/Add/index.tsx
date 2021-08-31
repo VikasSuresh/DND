@@ -32,16 +32,17 @@ class Add extends Component<any,any> {
 
     render(){
         return(
-        <div className="mb-3">
-            <input 
-                type="task" className="form-control" id="addATask" placeholder="Add a Task"
+            <div className="input-group mb-3">
+                <input type="text" className="form-control"
+                placeholder="Add a Task"
                 ref = {this.myRef}
                 onKeyDown = {this.action}
                 onChange={this.change}
-                
-            />
-            <button className= "form-control" type="submit" onClick = {this.action} >Add</button>
-        </div>
+                />
+                <div className="input-group-append">
+                    <button className="btn btn-outline-secondary" type="button" onClick = {this.action} >Add</button>
+                </div>
+            </div>
         )
     }
 }
