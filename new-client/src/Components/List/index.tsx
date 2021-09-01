@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Bookmarked, NotBookmarked } from "../Bookmark";
+import { Prioritized, NotPrioritized } from "../Priority";
 
 const List = (props:any)=>{
     const [reset,useReset]= useState(false);
@@ -29,6 +30,9 @@ const List = (props:any)=>{
                             </div>
                         </div>
                         <input type="text" readOnly={true} className="form-control" defaultValue= {task.task}/>
+                        <button type="submit" className="btn" disabled = {task.completed} onClick={()=>{props.togglePriority(task._id); Render()}} > 
+                            {task.completed?<NotPrioritized/>:task.priority?<Prioritized/>:<NotPrioritized/>}
+                        </button>
                         <button type="submit" className="btn" onClick={()=>{props.toggleBookmark(task._id); Render()}} > 
                             {task.bookmarked?<Bookmarked/>:<NotBookmarked/>}
                         </button>

@@ -44,6 +44,10 @@ export const Home = observer(() => {
         Store.toggleBookmark(id);
     }
 
+    function togglePriority(id:number) {
+        Store.togglePriority(id);
+    }
+
     const onDrop = (e:any,to:string)=> {
         const id = e.dataTransfer.getData('id')
         const from = e.dataTransfer.getData('category')
@@ -69,7 +73,10 @@ export const Home = observer(() => {
                     </h2>
                     <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div className="accordion-body">
-                        <ListTask val ={not} category="Not" toggleCompleted= {toggleCompleted.bind(this)}  toggleBookmark= {toggleBookmark.bind(this)} 
+                        <ListTask val ={not} category="Not" 
+                            toggleCompleted={toggleCompleted.bind(this)} 
+                            toggleBookmark={toggleBookmark.bind(this)}
+                            togglePriority={togglePriority.bind(this)} 
                         />
                     </div>
                     </div>
@@ -82,7 +89,10 @@ export const Home = observer(() => {
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                     <div className="accordion-body">
-                        <ListTask val ={done} category="Done" toggleCompleted={toggleCompleted.bind(this)} toggleBookmark={toggleBookmark.bind(this)}
+                        <ListTask val ={done} category="Done" 
+                            toggleCompleted={toggleCompleted.bind(this)} 
+                            toggleBookmark={toggleBookmark.bind(this)}
+                            togglePriority={togglePriority.bind(this)}
                         />
                     </div>
                     </div>
