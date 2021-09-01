@@ -8,7 +8,7 @@ interface Task {
     completed: boolean
 }
 
-export const Home = observer(() => {
+export const Home = observer((props:any) => {
     // const [todos, setToDo] = useState<Task[]>([{
     //     task:"A",
     //     completed:false
@@ -55,11 +55,16 @@ export const Home = observer(() => {
         if(from!==to){
             Store.toggleToDo(id)
         }
-    }     
+    }
 
     let not = Store.notCompleted
 
     let done = Store.completed;
+
+    if(props.path==="bookmarks"){
+        not = Store.notCompleted.filter(el=>el.bookmarked)
+        done = Store.completed.filter(el=>el.bookmarked)
+    }
 
     return(
         <div>

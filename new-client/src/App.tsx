@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { BrowserRouter as Router, Switch,Route } from "react-router-dom";
-import { Home,Bookmark } from "./Screens";
+import { Home} from "./Screens";
 import {Drawer}  from "./Components";
 class App extends Component<any,any>{
   render(){
@@ -8,7 +8,8 @@ class App extends Component<any,any>{
         <Drawer>
           <Router >
               <Switch>
-                <Route path="/bookmarks" component={Bookmark} />
+                <Route path="/bookmarks" render={(props) => <Home path="bookmarks" {...props} />} />
+                {/* <Route path="/tasks" render={(props) => <Home path="tasks" {...props} />} /> */}
                 <Route path="/" component={Home} />
               </Switch>
           </Router>
