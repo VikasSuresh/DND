@@ -41,15 +41,12 @@ export const Home = observer(() => {
     }
 
     function toggleBookmark(id:number) {
-        console.log(id)
         Store.toggleToBookmark(id);
     }
 
     let not = Store.notCompleted
 
     let done = Store.completed;
-
-    console.log(not,done)
 
     return(
         <div>
