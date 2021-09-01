@@ -11,6 +11,7 @@ class ToDo {
         todos: observable,
         completed: computed,
         notCompleted: computed,
+        bookmarked: computed,
         fetch: action,
         addToDo: action,
         toggleToDo: action,
@@ -61,6 +62,10 @@ class ToDo {
 
     get notCompleted() {
       return this.todos.filter((el) => !el.completed);
+    }
+
+    get bookmarked() {
+      return this.todos.filter((el) => el.bookmarked);
     }
 }
 

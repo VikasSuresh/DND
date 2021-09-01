@@ -143,12 +143,22 @@ export function MiniDrawer(props:any) {
           </IconButton>
         </div>
         <List>
-          {['Today', 'Planned', 'Important', 'Tasks'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+            <ListItem button key="Today" component="a" href="/">
+              <ListItemIcon><InboxIcon/></ListItemIcon>
+              <ListItemText primary="Today" />
             </ListItem>
-          ))}
+            <ListItem button key="Bookmarked" component="a" href="/bookmarks">
+              <ListItemIcon><MailIcon/></ListItemIcon>
+              <ListItemText primary="Bookmarked" />
+            </ListItem>
+            <ListItem button key="Planned" component="a" href="/planned">
+              <ListItemIcon><InboxIcon/></ListItemIcon>
+              <ListItemText primary="Planned" />
+            </ListItem>
+            <ListItem button key="Tasks" component="a" href="/tasks">
+              <ListItemIcon><MailIcon/></ListItemIcon>
+              <ListItemText primary="Tasks" />
+            </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>
