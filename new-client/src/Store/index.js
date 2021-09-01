@@ -45,11 +45,11 @@ class ToDo {
     }
 
     get completed() {
-      return this.todos.filter((el) => el.completed).map((el) => el.task);
+      return this.todos.filter((el) => el.completed);
     }
 
     get notCompleted() {
-      return this.todos.filter((el) => !el.completed).map((el) => el.task);
+      return this.todos.filter((el) => !el.completed);
     }
 }
 
