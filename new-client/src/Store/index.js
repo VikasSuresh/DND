@@ -25,11 +25,13 @@ class ToDo {
         task: 'A',
         bookmarked:false,
         completed: true,
+        sortOrder: 2,
       }, {
         _id:2,
         task: 'B',
         bookmarked:true,
         completed: false,
+        sortOrder: 1,
       });
     }
 
@@ -43,15 +45,15 @@ class ToDo {
     }
 
     toggleToDo(id) {
-      this.todos.map((el) => {
-        if (el._id === id) el.completed = !el.completed;
+       this.todos.map((el) => {
+        if (el._id.toString() === id.toString()) el.completed = !el.completed;
         return el;
       });
     }
 
     toggleToBookmark(id) {
       this.todos.map((el) => {
-        if (el._id === id) el.bookmarked = !el.bookmarked;
+        if (el._id.toString() === id.toString()) el.bookmarked = !el.bookmarked;
         return el;
       });
     }

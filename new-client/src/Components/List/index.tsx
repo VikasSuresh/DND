@@ -13,7 +13,13 @@ const List = (props:any)=>{
         <div className="list-group">
             {
                 props.val.map((task:any)=> (
-                    <div key={task._id} className="input-group mb-3">
+                    <div key={task._id} className="input-group mb-3" 
+                        draggable="true"
+                        onDragStart={(e)=>{
+                            e.dataTransfer.setData('id',task._id);
+                            e.dataTransfer.setData('category',props.category)
+                        }}
+                    >
                         <div className="input-group-text">
                             <div className="form-check form-switch">
                                 <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" 
