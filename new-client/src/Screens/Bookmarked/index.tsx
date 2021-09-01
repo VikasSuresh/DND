@@ -26,7 +26,7 @@ class Bookmark extends Component {
     }
 
     toggleBookmark=(id:number)=>{
-        Store.toggleToBookmark(id);
+        Store.toggleBookmark(id);
     }
 
     render(){

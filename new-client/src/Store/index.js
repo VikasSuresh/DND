@@ -15,7 +15,8 @@ class ToDo {
         fetch: action,
         addToDo: action,
         toggleToDo: action,
-        toggleToBookmark: action,
+        toggleBookmark: action,
+        togglePriority: action,
       });
     }
 
@@ -25,13 +26,13 @@ class ToDo {
         task: 'A',
         bookmarked:false,
         completed: true,
-        sortOrder: 2,
+        priority: true,
       }, {
         _id:2,
         task: 'B',
         bookmarked:true,
         completed: false,
-        sortOrder: 1,
+        priority: false,
       });
     }
 
@@ -41,6 +42,7 @@ class ToDo {
         ...task,
         bookmarked:false,
         completed: false,
+        priority: false,
       });
     }
 
@@ -51,9 +53,16 @@ class ToDo {
       });
     }
 
-    toggleToBookmark(id) {
+    toggleBookmark(id) {
       this.todos.map((el) => {
         if (el._id.toString() === id.toString()) el.bookmarked = !el.bookmarked;
+        return el;
+      });
+    }
+
+    togglePriority(id) {
+      this.todos.map((el) => {
+        if (el._id.toString() === id.toString()) el.priority = !el.priority;
         return el;
       });
     }

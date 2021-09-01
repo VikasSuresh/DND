@@ -41,7 +41,7 @@ export const Home = observer(() => {
     }
 
     function toggleBookmark(id:number) {
-        Store.toggleToBookmark(id);
+        Store.toggleBookmark(id);
     }
 
     const onDrop = (e:any,to:string)=> {
