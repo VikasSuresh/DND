@@ -21,10 +21,12 @@ class ToDo {
       this.todos.push({
         _id:1,
         task: 'A',
+        bookmarked:false,
         completed: true,
       }, {
         _id:2,
         task: 'B',
+        bookmarked:true,
         completed: false,
       });
     }
@@ -33,6 +35,7 @@ class ToDo {
       this.todos.push({
         _id: this.todos.length + 1,
         ...task,
+        bookmarked:false,
         completed: false,
       });
     }

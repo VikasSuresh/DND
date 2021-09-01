@@ -1,4 +1,5 @@
 import React from "react";
+import { Bookmarked, NotBookmarked } from "../Bookmark";
 
 const List = (props:any)=>(
     <ul className="list-group">
@@ -11,6 +12,9 @@ const List = (props:any)=>(
                     onClick={()=>{props.toggle(task._id)}}
                     />
                         {task.task}
+                        {task.bookmarked
+                        ?<Bookmarked/>
+                        :<NotBookmarked/>}
                     </li>
                 </div>
             )
