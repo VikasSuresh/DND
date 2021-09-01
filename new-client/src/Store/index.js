@@ -14,6 +14,7 @@ class ToDo {
         fetch: action,
         addToDo: action,
         toggleToDo: action,
+        toggleToBookmark: action,
       });
     }
 
@@ -43,6 +44,13 @@ class ToDo {
     toggleToDo(id) {
       this.todos.map((el) => {
         if (el._id === id) el.completed = !el.completed;
+        return el;
+      });
+    }
+
+    toggleToBookmark(id) {
+      this.todos.map((el) => {
+        if (el._id === id) el.bookmarked = !el.bookmarked;
         return el;
       });
     }

@@ -36,13 +36,20 @@ export const Home = observer(() => {
         }
     }
 
-    function toggle(id:number) {
+    function toggleCompleted(id:number) {
         Store.toggleToDo(id);
+    }
+
+    function toggleBookmark(id:number) {
+        console.log(id)
+        Store.toggleToBookmark(id);
     }
 
     let not = Store.notCompleted
 
     let done = Store.completed;
+
+    console.log(not,done)
 
     return(
         <div>
@@ -56,7 +63,7 @@ export const Home = observer(() => {
                     </h2>
                     <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div className="accordion-body">
-                        <ListTask val ={not} toggle= {toggle.bind(this)} ></ListTask>
+                        <ListTask val ={not} toggleCompleted= {toggleCompleted.bind(this)} toggleBookmark= {toggleBookmark.bind(this)} ></ListTask>
                     </div>
                     </div>
                 </div>
@@ -68,7 +75,7 @@ export const Home = observer(() => {
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                     <div className="accordion-body">
-                        <ListTask val ={done} toggle= {toggle.bind(this)} ></ListTask>
+                        <ListTask val ={done} toggleCompleted={toggleCompleted.bind(this)} toggleBookmark={toggleBookmark.bind(this)} ></ListTask>
                     </div>
                     </div>
                 </div>
