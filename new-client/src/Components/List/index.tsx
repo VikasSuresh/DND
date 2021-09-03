@@ -29,11 +29,11 @@ const List = (props:any)=>{
                                 />
                             </div>
                         </div>
-                        <input type="text" readOnly={true} className="form-control" defaultValue= {task.task}/>
-                        <button type="submit" className="btn" disabled = {task.completed} onClick={()=>{props.togglePriority(task._id); Render()}} > 
+                        <input type="text" readOnly={true} className="form-control" defaultValue= {task.task} />
+                        <button title="Priority" type="submit" className="btn" disabled = {task.completed} onClick={()=>{props.togglePriority(task._id); Render()}} > 
                             {task.completed?<NotPrioritized/>:task.priority?<Prioritized/>:<NotPrioritized/>}
                         </button>
-                        <button type="submit" className="btn" onClick={()=>{props.toggleBookmark(task._id); Render()}} > 
+                        <button title="Bookmark" type="submit" className="btn" onClick={()=>{props.toggleBookmark(task._id); Render()}} > 
                             {task.bookmarked?<Bookmarked/>:<NotBookmarked/>}
                         </button>
                     </div>
