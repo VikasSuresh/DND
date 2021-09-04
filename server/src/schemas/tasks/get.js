@@ -1,15 +1,21 @@
 const mongoose = require('mongoose');
 const validator = require('./validators/get');
+const { Generator } = require('../../helpers');
 
 const get = async (req, res, next) => {
     try {
         const { userId } = req.state;
 
-        const { page, size, search } = req.query;
+        const {
+            page, size, search, ...rest
+        } = req.query;
+
+        const { filter, sort } = Generator(rest);
 
         const Task = mongoose.model('task');
 
         const query = {
+            ...filter,
             userId: mongoose.mongo.ObjectId(userId),
         };
 
@@ -20,7 +26,8 @@ const get = async (req, res, next) => {
             };
         }
 
-        const data = await Task.find(query).skip(page * size).limit(size).lean();
+        const data = await Task.find(query).skip(page * size).limit(size).sort(sort)
+            .lean();
 
         const count = await Task.countDocuments(query).lean();
 
