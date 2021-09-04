@@ -34,11 +34,10 @@ module.exports = (others) => {
     if (sort) {
         sort = sort.split(',');
         sort = sort.reduce((a, c) => ({ ...a, [ c.split('_')[ 0 ] ]: c.split('_')[ 1 ] === 'asc' ? 1 : -1 }), {});
-    }
-
-    if (sort.date) {
-        sort.dueDate = sort.date;
-        delete sort.date;
+        if (sort.date) {
+            sort.dueDate = sort.date;
+            delete sort.date;
+        }
     }
 
     return ['completed', 'bookmarked', 'priority', 'expired', 'dueDate', 'createdAt', 'updatedAt'].reduce((a, c) => {
