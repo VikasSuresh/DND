@@ -1,6 +1,6 @@
 const Router = require('express').Router();
 
-const { Tasks } = require('./schema');
+const { Tasks } = require('./schemas');
 
 Router.get('/', require('./index'));
 

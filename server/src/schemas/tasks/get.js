@@ -10,7 +10,7 @@ const get = async (req, res, next) => {
         const Task = mongoose.model('task');
 
         const query = {
-            userId: mongoose.mongo.objectId(userId),
+            userId: mongoose.mongo.ObjectId(userId),
         };
 
         if (search) {

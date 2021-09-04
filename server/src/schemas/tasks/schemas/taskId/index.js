@@ -4,6 +4,4 @@ Router.get('/', require('./get'));
 Router.put('/', require('./put'));
 Router.delete('/', require('./delete'));
 
-Router.use('/:taskId', TaskId);
-
 module.exports = Router;

@@ -19,8 +19,8 @@ const put = async (req, res, next) => {
         }
 
         const data = await Task.findOneAndUpdate({
-            _id: mongoose.mongo.objectId(taskId),
-            userId: mongoose.mongo.objectId(userId),
+            _id: mongoose.mongo.ObjectId(taskId),
+            userId: mongoose.mongo.ObjectId(userId),
         }, {
             ...toBeUpdated,
         }, {

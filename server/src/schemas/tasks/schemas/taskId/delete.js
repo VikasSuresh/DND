@@ -10,8 +10,8 @@ const del = async (req, res, next) => {
         const Task = mongoose.model('task');
 
         const query = {
-            _id: mongoose.mongo.objectId(taskId),
-            userId: mongoose.mongo.objectId(userId),
+            _id: mongoose.mongo.ObjectId(taskId),
+            userId: mongoose.mongo.ObjectId(userId),
         };
 
         await Task.deleteOne(query).lean();
