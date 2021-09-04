@@ -41,5 +41,15 @@ module.exports = (others) => {
         delete sort.date;
     }
 
-    return { filter, sort };
+    return ['completed', 'bookmarked', 'priority', 'expired', 'dueDate', 'createdAt', 'updatedAt'].reduce((a, c) => {
+        const value = `${ c }`;
+        /* eslint-disable no-param-reassign */
+        if (filter[ value ])a.filter[ value ] = filter[ value ];
+        if (sort[ value ])a.sort[ value ] = sort[ value ];
+
+        return a;
+    }, {
+        sort: {},
+        filter: {},
+    });
 };
