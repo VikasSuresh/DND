@@ -18,6 +18,11 @@ const schema = new mongoose.Schema({
         type: Date,
         default: () => new Date(new Date().setUTCHours(23, 59, 59, 999)),
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
 }, {
     timestamps: true,
 });
