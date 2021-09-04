@@ -1,4 +1,4 @@
-const Task = require('./todomodel');
+const Task = require('./task');
 
 module.exports = {
     Task,
