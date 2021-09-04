@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 const validator = require('./validators/post');
 
 const post = async (req, res, next) => {
@@ -9,17 +10,17 @@ const post = async (req, res, next) => {
 
         const Task = mongoose.model('task');
 
-        let delta;
+        const date = {};
 
         if (body.dueDate) {
-            delta = Math.abs(new Date(body.dueDate) - new Date()) / 1000;
-            const hours = Math.floor(delta / 3600) % 24;
-            delta -= hours * 3600;
+            date.dueDate = moment(body.dueDate);
+            const hours = date.dueDate.diff(moment(new Date()), 'hours');
+            date.priority = hours <= 3 ? true : body.priority;
         }
 
         const data = new Task({
             ...body,
-            priority: delta <= 3 ? true : body.priority,
+            ...date,
             userId: mongoose.mongo.ObjectId(userId),
         });
 

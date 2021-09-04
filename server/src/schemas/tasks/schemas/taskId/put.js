@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 const validator = require('./validators/put');
 
 const put = async (req, res, next) => {
@@ -12,10 +13,9 @@ const put = async (req, res, next) => {
         const toBeUpdated = body;
 
         if (toBeUpdated.dueDate) {
-            let delta = Math.abs(new Date(toBeUpdated.dueDate) - new Date()) / 1000;
-            const hours = Math.floor(delta / 3600) % 24;
-            delta -= hours * 3600;
-            if (delta <= 3) toBeUpdated.priority = true;
+            toBeUpdated.dueDate = moment(toBeUpdated.dueDate);
+            const hours = toBeUpdated.dueDate.diff(moment(new Date()), 'hours');
+            if (hours <= 3) toBeUpdated.priority = true;
         }
 
         const data = await Task.findOneAndUpdate({
@@ -30,7 +30,7 @@ const put = async (req, res, next) => {
 
         return res.status(200).send({
             success: true,
-            value: data.toObject(),
+            value: data,
         });
     } catch (error) {
         return next(error);

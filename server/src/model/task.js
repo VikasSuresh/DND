@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const schema = new mongoose.Schema({
     name: {
@@ -23,7 +24,7 @@ const schema = new mongoose.Schema({
     },
     dueDate: {
         type: Date,
-        default: () => new Date(new Date().setUTCHours(23, 59, 59, 999)),
+        required: true,
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
