@@ -8,7 +8,7 @@ module.exports = (err, req, res, next) => {
         const resObj = {
             success: false,
             value: null,
-            message: err.toString(),
+            message: err.message,
         };
 
         return res.status(500).send(resObj);
