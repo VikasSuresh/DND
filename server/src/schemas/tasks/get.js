@@ -7,7 +7,7 @@ const get = async (req, res, next) => {
         const { userId } = req.state;
 
         const {
-            page, size, search, ...rest
+            page, size, search, all, ...rest
         } = req.query;
 
         const { filter, sort } = Generator(rest);
@@ -24,6 +24,15 @@ const get = async (req, res, next) => {
                 $regex: new RegExp(decodeURI(search).replace(/\s/g, '|').replace(/\./g, '\\.')),
                 $options: 'i',
             };
+        }
+
+        if (all) {
+            const data = await Task.find(query).sort(sort).lean();
+
+            return res.status(200).send({
+                success: true,
+                value: data,
+            });
         }
 
         const data = await Task.find(query).skip(page * size).limit(size).sort(sort)
