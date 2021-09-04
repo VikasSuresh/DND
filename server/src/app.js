@@ -12,16 +12,15 @@ require('./model');
 
 app.use(
     cors(
-        () => ({
+        {
             origin: (origin, callback) => {
-                if (!origin) return callback(null, false);
                 if (origin && origin.toLowerCase() === process.env.DOMAIN) {
                     return callback(null, true);
                 }
                 return callback(new Error('Not allowed by CORS'));
             },
             credentials: true,
-        }),
+        },
     ),
 );
 
