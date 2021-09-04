@@ -7,6 +7,7 @@ const app = express();
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const { Error } = require('./middlewares');
 
 require('./model');
 
@@ -30,7 +31,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use('/', require('./routes'));
 
-// app.use();
+app.use(Error);
 
 mongoose.connect(process.env.MONGO_URI, {
     useCreateIndex: true,
