@@ -14,11 +14,16 @@ const validDate = (date) => {
 module.exports = (others) => {
     let { filter, sort } = others;
 
+    const allowed = ['completed', 'bookmarked', 'priority', 'expired', 'dueDate', 'createdAt', 'updatedAt'];
+
     if (filter) {
         filter = filter.split(',');
         filter = filter.reduce((a, c) => {
-            const split = c.split('_');
-            if (split[ 0 ] === 'date') {
+            const split = c.split(':');
+
+            if (!allowed.includes(split[ 0 ])) return a;
+
+            if (split[ 0 ] === 'dueDate') {
                 return {
                     ...a,
                     dueDate: {
@@ -33,22 +38,14 @@ module.exports = (others) => {
     }
     if (sort) {
         sort = sort.split(',');
-        sort = sort.reduce((a, c) => ({ ...a, [ c.split('_')[ 0 ] ]: c.split('_')[ 1 ] === 'asc' ? 1 : -1 }), {});
-        if (sort.date) {
-            sort.dueDate = sort.date;
-            delete sort.date;
-        }
+        sort = sort.reduce((a, c) => {
+            const split = c.split(':');
+            if (!allowed.includes(split[ 0 ])) return a;
+
+            return {
+                ...a, [ split[ 0 ] ]: split[ 1 ] === 'asc' ? 1 : -1,
+            };
+        }, {});
     }
-
-    return ['completed', 'bookmarked', 'priority', 'expired', 'dueDate', 'createdAt', 'updatedAt'].reduce((a, c) => {
-        const value = `${ c }`;
-        /* eslint-disable no-param-reassign */
-        if (filter[ value ])a.filter[ value ] = filter[ value ];
-        if (sort[ value ])a.sort[ value ] = sort[ value ];
-
-        return a;
-    }, {
-        sort: {},
-        filter: {},
-    });
+    return { filter, sort };
 };
