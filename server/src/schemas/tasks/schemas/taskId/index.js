@@ -1,9 +1,8 @@
 const Router = require('express').Router({ mergeParams: true });
 
-const { TaskId } = require('./schemas');
-
 Router.get('/', require('./get'));
-Router.post('/', require('./post'));
+Router.put('/', require('./put'));
+Router.delete('/', require('./delete'));
 
 Router.use('/:taskId', TaskId);
 

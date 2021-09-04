@@ -7,12 +7,19 @@ const schema = new mongoose.Schema({
     },
     bookmarked: {
         type: Boolean,
+        default: false,
     },
     completed: {
         type: Boolean,
+        default: false,
     },
     priority: {
         type: Boolean,
+        default: false,
+    },
+    expired: {
+        type: Boolean,
+        default: false,
     },
     dueDate: {
         type: Date,
