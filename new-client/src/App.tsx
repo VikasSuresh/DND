@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { BrowserRouter as Router, Switch,Route } from "react-router-dom";
-import { Home} from "./Screens";
-import {Left,Right}  from "./Components";
+import { Home,Left,Right} from "./Screens";
 class App extends Component<any,any>{
   render(){
     return(
