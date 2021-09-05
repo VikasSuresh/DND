@@ -36,6 +36,10 @@ export const Home = observer((props:any) => {
         }
     }
 
+    function infoOnTask(id:number) {
+        props.handleDrawerOpen(id)
+    }
+
     function toggleCompleted(id:number) {
         Store.toggleToDo(id);
     }
@@ -82,6 +86,7 @@ export const Home = observer((props:any) => {
                             toggleCompleted={toggleCompleted.bind(this)} 
                             toggleBookmark={toggleBookmark.bind(this)}
                             togglePriority={togglePriority.bind(this)} 
+                            infoOnTask={infoOnTask.bind(this)}
                         />
                     </div>
                     </div>
@@ -98,6 +103,7 @@ export const Home = observer((props:any) => {
                             toggleCompleted={toggleCompleted.bind(this)} 
                             toggleBookmark={toggleBookmark.bind(this)}
                             togglePriority={togglePriority.bind(this)}
+                            infoOnTask={infoOnTask.bind(this)}
                         />
                     </div>
                     </div>

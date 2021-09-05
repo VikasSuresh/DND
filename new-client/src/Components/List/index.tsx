@@ -29,7 +29,7 @@ const List = (props:any)=>{
                                 />
                             </div>
                         </div>
-                        <input type="text" readOnly={true} className="form-control" defaultValue= {task.task} />
+                        <input type="text" readOnly={true} className="form-control" defaultValue= {task.task} onClick={()=>props.infoOnTask(task._id)} />
                         <button title="Priority" type="submit" className="btn" disabled = {task.completed} onClick={()=>{props.togglePriority(task._id); Render()}} > 
                             {task.completed?<NotPrioritized/>:task.priority?<Prioritized/>:<NotPrioritized/>}
                         </button>

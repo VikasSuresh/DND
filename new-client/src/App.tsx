@@ -1,19 +1,21 @@
 import { Component } from "react";
 import { BrowserRouter as Router, Switch,Route } from "react-router-dom";
 import { Home} from "./Screens";
-import {Drawer}  from "./Components";
+import {Left,Right}  from "./Components";
 class App extends Component<any,any>{
   render(){
     return(
-        <Drawer>
-          <Router >
+       <Left>
+         <Right render = {(properties: any) =>(
+           <Router >
               <Switch>
-                <Route path="/bookmarks" render={(props) => <Home path="bookmarks" {...props} />} />
+                <Route path="/bookmarks" render={(props) => <Home path="bookmarks" properties={properties} {...props} />} />
                 {/* <Route path="/tasks" render={(props) => <Home path="tasks" {...props} />} /> */}
-                <Route path="/" component={Home} />
+                <Route path="/" render={(props) => <Home handleDrawerOpen={properties} {...props} />} />
               </Switch>
           </Router>
-        </Drawer>
+         )}/>
+       </Left>
     )
   }
 }
