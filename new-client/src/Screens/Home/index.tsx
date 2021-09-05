@@ -1,13 +1,16 @@
-import React, { useState,useEffect } from "react";
-import { observer } from "mobx-react";
-import Store from "../../Store";
-import {AddTask,ListTask} from "../../Components";
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable import/no-unresolved */
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import Store from '../../Store';
+import { AddTask, ListTask } from '../../Components';
 
-interface Task {
-    task: string,
-    completed: boolean
-}
+// interface Task {
+//     task: string,
+//     completed: boolean
+// }
 
+// eslint-disable-next-line import/prefer-default-export
 export const Home = observer((props:any) => {
     // const [todos, setToDo] = useState<Task[]>([{
     //     task:"A",
@@ -24,20 +27,20 @@ export const Home = observer((props:any) => {
     //     ]))
     // },[])
 
-     useEffect(()=>{
-        Store.fetch()
-    },[])
+    useEffect(() => {
+        Store.fetch();
+    }, []);
 
     function submit(task:string) {
-        if(task){
+        if (task) {
             Store.addToDo({
-                task
-            })      
+                task,
+            });
         }
     }
 
     function infoOnTask(id:number) {
-        props.handleDrawerOpen(id)
+        props.handleDrawerOpen(id);
     }
 
     function toggleCompleted(id:number) {
@@ -52,63 +55,81 @@ export const Home = observer((props:any) => {
         Store.togglePriority(id);
     }
 
-    const onDrop = (e:any,to:string)=> {
-        const id = e.dataTransfer.getData('id')
-        const from = e.dataTransfer.getData('category')
-        
-        if(from!==to){
-            Store.toggleToDo(id)
-        }
-    }
+    const onDrop = (e:any, to:string) => {
+        const id = e.dataTransfer.getData('id');
+        const from = e.dataTransfer.getData('category');
 
-    let not = Store.notCompleted
+        if (from !== to) {
+            Store.toggleToDo(id);
+        }
+    };
+
+    let not = Store.notCompleted;
 
     let done = Store.completed;
 
-    if(props.path==="bookmarks"){
-        not = Store.notCompleted.filter(el=>el.bookmarked)
-        done = Store.completed.filter(el=>el.bookmarked)
+    if (props.path === 'bookmarks') {
+        not = Store.notCompleted.filter((el) => el.bookmarked);
+        done = Store.completed.filter((el) => el.bookmarked);
     }
 
-    return(
+    return (
         <div>
-           <AddTask addToDo = {submit.bind(this)}/>
-           <div className="accordion" id="accordionPanelsStayOpenExample">
-                <div className="accordion-item" onDragOver={(e)=> e.preventDefault()} onDrop={(e)=> onDrop(e,"Not")}>
+            <AddTask addToDo={submit.bind(this)} />
+            <div className="accordion" id="accordionPanelsStayOpenExample">
+                <div className="accordion-item" onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, 'Not')}>
                     <h2 className="accordion-header" id="panelsStayOpen-headingOne">
-                    <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                        Not Completed
-                    </button>
+                        <button
+                            className="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne"
+                            aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne"
+                        >
+                            Not Completed
+                        </button>
                     </h2>
                     <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                    <div className="accordion-body">
-                        <ListTask val ={not} category="Not" 
-                            toggleCompleted={toggleCompleted.bind(this)} 
-                            toggleBookmark={toggleBookmark.bind(this)}
-                            togglePriority={togglePriority.bind(this)} 
-                            infoOnTask={infoOnTask.bind(this)}
-                        />
-                    </div>
+                        <div className="accordion-body">
+                            <ListTask
+                                val={not}
+                                category="Not"
+                                toggleCompleted={toggleCompleted.bind(this)}
+                                toggleBookmark={toggleBookmark.bind(this)}
+                                togglePriority={togglePriority.bind(this)}
+                                infoOnTask={infoOnTask.bind(this)}
+                            />
+                        </div>
                     </div>
                 </div>
-                <div className="accordion-item" onDragOver={(e)=> e.preventDefault()} onDrop={(e)=> onDrop(e,"Done")} >
+                <div className="accordion-item" onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, 'Done')}>
                     <h2 className="accordion-header" id="panelsStayOpen-headingTwo">
-                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                        Completed
-                    </button>
+                        <button
+                            className="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseTwo"
+                            aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseTwo"
+                        >
+                            Completed
+                        </button>
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                    <div className="accordion-body">
-                        <ListTask val ={done} category="Done" 
-                            toggleCompleted={toggleCompleted.bind(this)} 
-                            toggleBookmark={toggleBookmark.bind(this)}
-                            togglePriority={togglePriority.bind(this)}
-                            infoOnTask={infoOnTask.bind(this)}
-                        />
-                    </div>
+                        <div className="accordion-body">
+                            <ListTask
+                                val={done}
+                                category="Done"
+                                toggleCompleted={toggleCompleted.bind(this)}
+                                toggleBookmark={toggleBookmark.bind(this)}
+                                togglePriority={togglePriority.bind(this)}
+                                infoOnTask={infoOnTask.bind(this)}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
-})
+    );
+});
