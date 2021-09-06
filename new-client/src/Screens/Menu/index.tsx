@@ -112,19 +112,24 @@ export const RightDrawer = observer((props:any) => {
                     </ListItem>
                 </List>
                 <Divider />
-                <List disablePadding style={{ display: 'flex', justifyContent: 'center' }}>
-                    <ListItem button key="props">
-                        <ListItemIcon>
-                            <button title="Completed" type="submit" className="btn" onClick={() => { Store.toggleToDo(toDo._id); }}>
-                                {toDo.completed ? <Icons.Completed /> : <Icons.NotCompleted />}
-                            </button>
-                            <button title="Priority" type="submit" className="btn" disabled={toDo.completed} onClick={() => { Store.togglePriority(toDo._id); }}>
-                                {toDo.completed ? <Icons.NotPrioritized /> : toDo.priority ? <Icons.Prioritized /> : <Icons.NotPrioritized />}
-                            </button>
-                            <button title="Bookmark" type="submit" className="btn" onClick={() => { Store.toggleBookmark(toDo._id); }}>
-                                {toDo.bookmarked ? <Icons.Bookmarked /> : <Icons.NotBookmarked />}
-                            </button>
-                        </ListItemIcon>
+                <List>
+                    <ListItem>
+                        <button style={{ top: '10%', left: '20%', position: 'absolute' }} title="Completed" type="submit" className="btn" onClick={() => { Store.toggleToDo(toDo._id); }}>
+                            {toDo.completed ? <Icons.Completed /> : <Icons.NotCompleted />}
+                        </button>
+                        <button
+                            style={{ top: '10%', left: '40%', position: 'absolute' }}
+                            title="Priority"
+                            type="submit"
+                            className="btn"
+                            disabled={toDo.completed}
+                            onClick={() => { Store.togglePriority(toDo._id); }}
+                        >
+                            {toDo.completed ? <Icons.NotPrioritized /> : toDo.priority ? <Icons.Prioritized /> : <Icons.NotPrioritized />}
+                        </button>
+                        <button style={{ top: '10%', left: '60%', position: 'absolute' }} title="Bookmark" type="submit" className="btn" onClick={() => { Store.toggleBookmark(toDo._id); }}>
+                            {toDo.bookmarked ? <Icons.Bookmarked /> : <Icons.NotBookmarked />}
+                        </button>
                     </ListItem>
                 </List>
             </Drawer>

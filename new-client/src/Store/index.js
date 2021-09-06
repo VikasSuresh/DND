@@ -14,6 +14,9 @@ class ToDo {
     todo = {
         _id: 0,
         name: '',
+        completed: false,
+        priority: false,
+        bookmarked: false,
     };
 
     constructor() {
@@ -93,7 +96,7 @@ class ToDo {
             withCredentials: true,
         });
 
-        this.stateUpdate({ values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
+        this.stateUpdate({ value, values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
     }
 
     async toggleBookmark(id) {
@@ -105,7 +108,7 @@ class ToDo {
             withCredentials: true,
         });
 
-        this.stateUpdate({ values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
+        this.stateUpdate({ value, values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
     }
 
     async togglePriority(id) {
@@ -117,7 +120,7 @@ class ToDo {
             withCredentials: true,
         });
 
-        this.stateUpdate({ values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
+        this.stateUpdate({ value, values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
     }
 
     get completed() {
