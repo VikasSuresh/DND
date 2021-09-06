@@ -39,19 +39,19 @@ export const Home = observer((props:any) => {
         }
     }
 
-    function infoOnTask(id:number) {
+    function infoOnTask(id:string) {
         props.handleDrawerOpen(id);
     }
 
-    function toggleCompleted(id:number) {
+    function toggleCompleted(id:string) {
         Store.toggleToDo(id);
     }
 
-    function toggleBookmark(id:number) {
+    function toggleBookmark(id:string) {
         Store.toggleBookmark(id);
     }
 
-    function togglePriority(id:number) {
+    function togglePriority(id:string) {
         Store.togglePriority(id);
     }
 
