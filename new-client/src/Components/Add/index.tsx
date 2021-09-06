@@ -6,7 +6,7 @@ class Add extends Component<any, any> {
     constructor(props:any) {
         super(props);
         this.state = {
-            data: '',
+            name: '',
         };
         this.myRef = React.createRef();
     }
@@ -14,18 +14,18 @@ class Add extends Component<any, any> {
     change = (e:any) => {
         this.setState((state:any) => ({
             ...state,
-            data: e.target.value,
+            name: e.target.value,
         }));
     };
 
     action = (e:any) => {
         if (e.key === 'Enter' || e.type === 'click') {
             // eslint-disable-next-line react/destructuring-assignment
-            this.props.addToDo(this.state.data);
+            this.props.addToDo(this.state.name);
             this.myRef.current.value = '';
             this.setState((state:any) => ({
                 ...state,
-                data: null,
+                name: null,
             }));
         }
     };

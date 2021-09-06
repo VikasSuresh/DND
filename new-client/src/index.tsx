@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App'; // eslint-disable-line import/no-unresolved
+// eslint-disable-next-line import/no-unresolved
+import App from './App';
 
 ReactDOM.render(
     <React.StrictMode>
