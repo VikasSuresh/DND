@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect } from 'react';
@@ -14,9 +15,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Store from '../../Store';
+// import { Icons } from '../../Components';
 
 const drawerWidth = 350;
 
@@ -107,9 +108,7 @@ export const RightDrawer = observer((props:any) => {
                 <Divider />
                 <List>
                     <ListItem button key="text">
-                        <ListItemIcon>
-                            <InboxIcon />
-                        </ListItemIcon>
+                        <ListItemIcon />
                     </ListItem>
                 </List>
             </Drawer>
