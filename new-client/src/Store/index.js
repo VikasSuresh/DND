@@ -38,7 +38,9 @@ class ToDo {
         });
     }
 
-    stateUpdate({ value, values, add }) {
+    stateUpdate({
+        value, values, add,
+    }) {
         if (values) {
             this.todos = values;
         }
@@ -56,6 +58,14 @@ class ToDo {
         });
 
         this.stateUpdate({ values });
+    }
+
+    async fetchOne(id) {
+        const { data: { value } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks/${id}`, {
+            withCredentials: true,
+        });
+
+        this.stateUpdate({ value });
     }
 
     async addToDo(task) {
@@ -79,12 +89,14 @@ class ToDo {
         });
     }
 
-    async fetchOne(id) {
-        const { data: { value } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks/${id}`, {
+    async deleteOne(id) {
+        const { data } = await axios.delete(`${process.env.REACT_APP_SERVER_API}/tasks/${id}`, {
             withCredentials: true,
         });
 
-        this.stateUpdate({ value });
+        if (data) {
+            this.stateUpdate({ values: this.todos.filter((el) => el._id.toString() !== id.toString()) });
+        }
     }
 
     async toggleToDo(id) {

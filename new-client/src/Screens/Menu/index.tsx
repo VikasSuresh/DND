@@ -13,10 +13,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Close from '@material-ui/icons/Close';
+import CancelIcon from '@material-ui/icons/Cancel';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+import { Button } from '@material-ui/core';
 import Store from '../../Store';
 import { Icons } from '../../Components';
 
@@ -84,7 +86,10 @@ export const RightDrawer = observer((props:any) => {
             >
                 <div className={classes.drawerHeader}>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <Close /> : <Close />}
+                        {theme.direction === 'rtl' ? <CancelIcon /> : <CancelIcon />}
+                    </IconButton>
+                    <IconButton style={{ justifyContent: 'left' }} onClick={() => { Store.deleteOne(task._id); handleDrawerClose(); }}>
+                        <DeleteForeverRoundedIcon />
                     </IconButton>
                 </div>
                 <Divider />
@@ -112,24 +117,41 @@ export const RightDrawer = observer((props:any) => {
                     </ListItem>
                 </List>
                 <Divider />
-                <List>
+                <List style={{ top: '3%' }}>
                     <ListItem>
-                        <button style={{ top: '10%', left: '20%', position: 'absolute' }} title="Completed" type="submit" className="btn" onClick={() => { Store.toggleToDo(toDo._id); }}>
+                        <button
+                            style={{ left: '20%', position: 'absolute', outline: 'none' }}
+                            title="Completed"
+                            type="submit"
+                            className="btn btn-lg"
+                            onClick={() => { Store.toggleToDo(toDo._id); }}
+                        >
                             {toDo.completed ? <Icons.Completed /> : <Icons.NotCompleted />}
                         </button>
                         <button
-                            style={{ top: '10%', left: '40%', position: 'absolute' }}
+                            style={{ left: '40%', position: 'absolute', outline: 'none' }}
                             title="Priority"
                             type="submit"
-                            className="btn"
+                            className="btn btn-lg"
                             disabled={toDo.completed}
                             onClick={() => { Store.togglePriority(toDo._id); }}
                         >
                             {toDo.completed ? <Icons.NotPrioritized /> : toDo.priority ? <Icons.Prioritized /> : <Icons.NotPrioritized />}
                         </button>
-                        <button style={{ top: '10%', left: '60%', position: 'absolute' }} title="Bookmark" type="submit" className="btn" onClick={() => { Store.toggleBookmark(toDo._id); }}>
+                        <button
+                            style={{ left: '60%', position: 'absolute', outline: 'none' }}
+                            title="Bookmark"
+                            type="submit"
+                            className="btn btn-lg"
+                            onClick={() => { Store.toggleBookmark(toDo._id); }}
+                        >
                             {toDo.bookmarked ? <Icons.Bookmarked /> : <Icons.NotBookmarked />}
                         </button>
+                    </ListItem>
+                </List>
+                <List style={{ top: '7%' }}>
+                    <ListItem>
+                        <Button fullWidth variant="contained">Add Due Date</Button>
                     </ListItem>
                 </List>
             </Drawer>
@@ -156,12 +178,12 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         width: drawerWidth,
     },
     drawerHeader: {
-        // display: 'flex',
-        // alignItems: 'center',
-        // padding: theme.spacing(0, 1),
-        // // necessary for content to be below app bar
-        // ...theme.mixins.toolbar,
-        // justifyContent: 'flex-start',
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+        justifyContent: 'space-between',
     },
     content: {
         flexGrow: 1,
