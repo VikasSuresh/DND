@@ -5,15 +5,22 @@ import {
 } from 'mobx';
 
 class ToDo {
-    todos=[];
+    todos = [];
+
+    todo = {
+        _id: 0,
+        name: '',
+    };
 
     constructor() {
         makeObservable(this, {
             todos: observable,
+            todo: observable,
+            aToDo: computed,
             completed: computed,
             notCompleted: computed,
             bookmarked: computed,
-            fetch: action,
+            fetchOne: action,
             addToDo: action,
             toggleToDo: action,
             toggleBookmark: action,
@@ -24,13 +31,13 @@ class ToDo {
     fetch() {
         this.todos.push({
             _id: 1,
-            task: 'A',
+            name: 'A',
             bookmarked: false,
             completed: true,
             priority: true,
         }, {
             _id: 2,
-            task: 'B',
+            name: 'B',
             bookmarked: true,
             completed: false,
             priority: false,
@@ -45,6 +52,12 @@ class ToDo {
             completed: false,
             priority: false,
         });
+    }
+
+    fetchOne(id) {
+        this.todo = {
+            ...this.todos.reduce((a, c) => (!a && c._id === id ? c : a), null),
+        };
     }
 
     toggleToDo(id) {
@@ -78,6 +91,10 @@ class ToDo {
 
     get bookmarked() {
         return this.todos.filter((el) => el.bookmarked);
+    }
+
+    get aToDo() {
+        return { ...this.todo };
     }
 }
 

@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
 import clsx from 'clsx';
 import {
     makeStyles, useTheme, Theme, createStyles,
@@ -12,11 +14,108 @@ import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import Store from '../../Store';
 
 const drawerWidth = 350;
+
+// eslint-disable-next-line import/prefer-default-export
+export const RightDrawer = observer((props:any) => {
+    const classes = useStyles();
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false);
+    const [task, setTask] = React.useState({
+        _id: 0,
+        name: '',
+    });
+
+    const toDo = Store.aToDo;
+
+    useEffect(() => {
+        if (task._id !== toDo._id) {
+            setTask({
+                ...toDo,
+            });
+        }
+    });
+
+    const onSubmit = (e:any) => {
+        if ((e.key === 'Enter' || e.type === 'blur') && e.target.value !== '') {
+            Store.
+        }
+    };
+
+    const handleDrawerOpen = (id:number) => {
+        Store.fetchOne(id);
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
+    return (
+        <div className={classes.root}>
+            <CssBaseline />
+            <main
+                className={clsx(classes.content, {
+                    [classes.contentShift]: open,
+                })}
+            >
+                {props.render(handleDrawerOpen)}
+            </main>
+            <Drawer
+                className={classes.drawer}
+                variant="persistent"
+                anchor="right"
+                open={open}
+                key={task._id}
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
+            >
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'rtl' ? <Close /> : <Close />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    <ListItem button key="text">
+                        <ListItemIcon>
+                            <AssignmentIcon />
+                        </ListItemIcon>
+                        <div className="form-floating mb-3" style={{ top: '7px' }}>
+                            <input
+                                size={25}
+                                type="name"
+                                className={task.name === '' ? 'form-control is-invalid' : 'form-control'}
+                                id="floatingInput"
+                                defaultValue={task.name}
+                                onKeyPress={onSubmit}
+                                onBlur={onSubmit}
+                                onChange={(e) => setTask((prev) => ({
+                                    ...prev,
+                                    name: e.target.value,
+                                }))}
+                            />
+                            <label htmlFor="floatingInput">Name*</label>
+                        </div>
+                    </ListItem>
+                </List>
+                <Divider />
+                <List>
+                    <ListItem button key="text">
+                        <ListItemIcon>
+                            <InboxIcon />
+                        </ListItemIcon>
+                    </ListItem>
+                </List>
+            </Drawer>
+        </div>
+    );
+});
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -61,65 +160,3 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         marginRight: 0,
     },
 }));
-
-// eslint-disable-next-line import/prefer-default-export
-export function RightDrawer(props:any) {
-    const classes = useStyles();
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-
-    const handleDrawerOpen = (id:number) => {
-        console.log(id);
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-    return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
-            >
-                {props.render(handleDrawerOpen)}
-            </main>
-            <Drawer
-                className={classes.drawer}
-                variant="persistent"
-                anchor="right"
-                open={open}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-            >
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <Close /> : <Close />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-            </Drawer>
-        </div>
-    );
-}
