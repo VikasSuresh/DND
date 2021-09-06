@@ -48,7 +48,7 @@ class ToDo {
     }
 
     async fetch() {
-        const { data: { value: { values } } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks`, {
+        const { data: { values } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks?all=true`, {
             withCredentials: true,
         });
 
