@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/destructuring-assignment */
@@ -17,7 +18,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Store from '../../Store';
-// import { Icons } from '../../Components';
+import { Icons } from '../../Components';
 
 const drawerWidth = 350;
 
@@ -29,6 +30,9 @@ export const RightDrawer = observer((props:any) => {
     const [task, setTask] = React.useState({
         _id: 0,
         name: '',
+        completed: false,
+        priority: false,
+        bookmarked: false,
     });
 
     const toDo = Store.aToDo;
@@ -85,7 +89,7 @@ export const RightDrawer = observer((props:any) => {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button key="text">
+                    <ListItem button key="name">
                         <ListItemIcon>
                             <AssignmentIcon />
                         </ListItemIcon>
@@ -108,9 +112,19 @@ export const RightDrawer = observer((props:any) => {
                     </ListItem>
                 </List>
                 <Divider />
-                <List>
-                    <ListItem button key="text">
-                        <ListItemIcon />
+                <List disablePadding style={{ display: 'flex', justifyContent: 'center' }}>
+                    <ListItem button key="props">
+                        <ListItemIcon>
+                            <button title="Completed" type="submit" className="btn" onClick={() => { Store.toggleToDo(toDo._id); }}>
+                                {toDo.completed ? <Icons.Completed /> : <Icons.NotCompleted />}
+                            </button>
+                            <button title="Priority" type="submit" className="btn" disabled={toDo.completed} onClick={() => { Store.togglePriority(toDo._id); }}>
+                                {toDo.completed ? <Icons.NotPrioritized /> : toDo.priority ? <Icons.Prioritized /> : <Icons.NotPrioritized />}
+                            </button>
+                            <button title="Bookmark" type="submit" className="btn" onClick={() => { Store.toggleBookmark(toDo._id); }}>
+                                {toDo.bookmarked ? <Icons.Bookmarked /> : <Icons.NotBookmarked />}
+                            </button>
+                        </ListItemIcon>
                     </ListItem>
                 </List>
             </Drawer>
