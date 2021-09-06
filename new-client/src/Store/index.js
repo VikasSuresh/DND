@@ -22,6 +22,7 @@ class ToDo {
             bookmarked: computed,
             fetchOne: action,
             addToDo: action,
+            updateOne: action,
             toggleToDo: action,
             toggleBookmark: action,
             togglePriority: action,
@@ -52,6 +53,11 @@ class ToDo {
             completed: false,
             priority: false,
         });
+    }
+
+    updateOne(task) {
+        this.todos = this.todos.map((el) => (el._id === task._id ? { ...el, ...task } : el));
+        this.fetchOne(task._id);
     }
 
     fetchOne(id) {

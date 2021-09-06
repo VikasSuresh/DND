@@ -42,7 +42,7 @@ export const RightDrawer = observer((props:any) => {
 
     const onSubmit = (e:any) => {
         if ((e.key === 'Enter' || e.type === 'blur') && e.target.value !== '') {
-            Store.
+            Store.updateOne(task);
         }
     };
 
