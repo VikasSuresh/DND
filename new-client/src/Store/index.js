@@ -1,8 +1,12 @@
+/* eslint-disable no-undef */
+/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 import {
     makeObservable, observable, computed, action,
 } from 'mobx';
+
+const axios = require('axios').default;
 
 class ToDo {
     todos = [];
@@ -20,6 +24,8 @@ class ToDo {
             completed: computed,
             notCompleted: computed,
             bookmarked: computed,
+            stateUpdate: action,
+            fetch: action,
             fetchOne: action,
             addToDo: action,
             updateOne: action,
@@ -29,62 +35,89 @@ class ToDo {
         });
     }
 
-    fetch() {
-        this.todos.push({
-            _id: 1,
-            name: 'A',
-            bookmarked: false,
-            completed: true,
-            priority: true,
+    stateUpdate({ value, values, add }) {
+        if (values) {
+            this.todos = values;
+        }
+        if (value) {
+            this.todo = value;
+        }
+        if (add) {
+            this.todos.push(add);
+        }
+    }
+
+    async fetch() {
+        const { data: { value: { values } } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks`, {
+            withCredentials: true,
+        });
+
+        this.stateUpdate({ values });
+    }
+
+    async addToDo(task) {
+        const { data: { value } } = await axios.post(`${process.env.REACT_APP_SERVER_API}/tasks`, task, {
+            withCredentials: true,
+        });
+
+        this.stateUpdate({ add: value });
+    }
+
+    async updateOne(task) {
+        const { data: { value } } = await axios.put(`${process.env.REACT_APP_SERVER_API}/tasks/${task._id}`, {
+            name: task.name,
         }, {
-            _id: 2,
-            name: 'B',
-            bookmarked: true,
-            completed: false,
-            priority: false,
+            withCredentials: true,
+        });
+
+        this.stateUpdate({
+            value,
+            values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)),
         });
     }
 
-    addToDo(task) {
-        this.todos.push({
-            _id: this.todos.length + 1,
-            ...task,
-            bookmarked: false,
-            completed: false,
-            priority: false,
+    async fetchOne(id) {
+        const { data: { value } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks/${id}`, {
+            withCredentials: true,
         });
+
+        this.stateUpdate({ value });
     }
 
-    updateOne(task) {
-        this.todos = this.todos.map((el) => (el._id === task._id ? { ...el, ...task } : el));
-        this.fetchOne(task._id);
-    }
+    async toggleToDo(id) {
+        const completed = !this.todos.filter(({ _id }) => _id.toString() === id.toString())[0].completed;
 
-    fetchOne(id) {
-        this.todo = {
-            ...this.todos.reduce((a, c) => (!a && c._id === id ? c : a), null),
-        };
-    }
-
-    toggleToDo(id) {
-        this.todos.map((el) => {
-            if (el._id.toString() === id.toString()) el.completed = !el.completed;
-            return el;
+        const { data: { value } } = await axios.put(`${process.env.REACT_APP_SERVER_API}/tasks/${id}`, {
+            completed,
+        }, {
+            withCredentials: true,
         });
+
+        this.stateUpdate({ values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
     }
 
-    toggleBookmark(id) {
-        this.todos.map((el) => {
-            if (el._id.toString() === id.toString()) el.bookmarked = !el.bookmarked;
-            return el;
+    async toggleBookmark(id) {
+        const bookmarked = !this.todos.filter(({ _id }) => _id.toString() === id.toString())[0].bookmarked;
+
+        const { data: { value } } = await axios.put(`${process.env.REACT_APP_SERVER_API}/tasks/${id}`, {
+            bookmarked,
+        }, {
+            withCredentials: true,
         });
+
+        this.stateUpdate({ values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
     }
 
-    togglePriority(id) {
-        this.todos.map((el) => {
-            if (el._id.toString() === id.toString()) el.priority = !el.priority;
-            return el;
+    async togglePriority(id) {
+        const priority = !this.todos.filter(({ _id }) => _id.toString() === id.toString())[0].priority;
+
+        const { data: { value } } = await axios.put(`${process.env.REACT_APP_SERVER_API}/tasks/${id}`, {
+            priority,
+        }, {
+            withCredentials: true,
         });
+
+        this.stateUpdate({ values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
     }
 
     get completed() {
@@ -100,7 +133,7 @@ class ToDo {
     }
 
     get aToDo() {
-        return { ...this.todo };
+        return this.todo;
     }
 }
 

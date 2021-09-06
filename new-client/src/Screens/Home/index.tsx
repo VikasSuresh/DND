@@ -31,10 +31,10 @@ export const Home = observer((props:any) => {
         Store.fetch();
     }, []);
 
-    function submit(task:string) {
-        if (task) {
+    function submit(name:string) {
+        if (name) {
             Store.addToDo({
-                task,
+                name,
             });
         }
     }
