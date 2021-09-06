@@ -25,7 +25,7 @@ const post = async (req, res, next) => {
             userId: mongoose.mongo.ObjectId(userId),
         });
 
-        // await data.save();
+        await data.save();
 
         return res.status(200).send({
             success: true,
