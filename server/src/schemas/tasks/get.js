@@ -31,7 +31,7 @@ const get = async (req, res, next) => {
 
             return res.status(200).send({
                 success: true,
-                value: data,
+                values: data,
             });
         }
 
