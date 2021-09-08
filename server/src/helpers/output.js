@@ -1,10 +1,17 @@
+const moment = require('moment');
+
 module.exports = (val) => {
+    if (!val) return null;
     if (Array.isArray(val)) {
-        val.map((el) => genDateString(el));
+        return val.map((el) => genDateString(el));
     }
-    genDateString(val);
+    return genDateString(val);
 };
 
 function genDateString(val) {
-    console.log(val);
+    const { dueDate } = val;
+    const date = moment(dueDate).diff(new Date(), 'days');
+    if (date < 0) return { ...val, expired: true, dueDate: 'Today' };
+    if (date === 1) return { ...val, expired: false, dueDate: 'Tomorrow' };
+    return { ...val, expired: false, dueDate: moment(dueDate).format('llll') };
 }
