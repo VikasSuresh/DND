@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('./validators/get');
+const { Output } = require('../../../../helpers');
 
 const get = async (req, res, next) => {
     try {
@@ -18,7 +19,7 @@ const get = async (req, res, next) => {
 
         return res.status(200).send({
             success: true,
-            value: data,
+            value: Output(data),
         });
     } catch (error) {
         return next(error);

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const validator = require('./validators/post');
+const { Output } = require('../../helpers');
 
 const post = async (req, res, next) => {
     try {
@@ -29,7 +30,7 @@ const post = async (req, res, next) => {
 
         return res.status(200).send({
             success: true,
-            value: data.toObject(),
+            value: Output(data.toObject()),
         });
     } catch (error) {
         return next(error);

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('./validators/get');
 const { Generator } = require('../../helpers');
+const { Output } = require('../../helpers');
 
 const get = async (req, res, next) => {
     try {
@@ -49,7 +50,7 @@ const get = async (req, res, next) => {
                     total_count: count,
                     total_pages: Math.ceil(count / size),
                 },
-                values: data,
+                values: Output(data),
             },
         });
     } catch (error) {

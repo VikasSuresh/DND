@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const validator = require('./validators/put');
+const { Output } = require('../../../../helpers');
 
 const put = async (req, res, next) => {
     try {
@@ -15,7 +16,7 @@ const put = async (req, res, next) => {
         if (toBeUpdated.dueDate) {
             toBeUpdated.dueDate = moment(toBeUpdated.dueDate);
             const hours = toBeUpdated.dueDate.diff(moment(new Date()), 'hours');
-            if (hours <= 0) throw new Error('Wrong Date');
+            if (hours < 0) throw new Error('Wrong Date');
             if (hours <= 3) toBeUpdated.priority = true;
         }
 
@@ -31,7 +32,7 @@ const put = async (req, res, next) => {
 
         return res.status(200).send({
             success: true,
-            value: data,
+            value: Output(data),
         });
     } catch (error) {
         return next(error);
