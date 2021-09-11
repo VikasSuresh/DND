@@ -17,6 +17,8 @@ class ToDo {
         completed: false,
         priority: false,
         bookmarked: false,
+        dueDate: '',
+        expired: false,
     };
 
     constructor() {
@@ -35,6 +37,7 @@ class ToDo {
             toggleToDo: action,
             toggleBookmark: action,
             togglePriority: action,
+            updateDueDate: action,
         });
     }
 
@@ -133,6 +136,20 @@ class ToDo {
         });
 
         this.stateUpdate({ value, values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)) });
+    }
+
+    async updateDueDate(task) {
+        console.log(task);
+        const { data: { value } } = await axios.put(`${process.env.REACT_APP_SERVER_API}/tasks/${task._id}`, {
+            dueDate: task.dueDate,
+        }, {
+            withCredentials: true,
+        });
+
+        this.stateUpdate({
+            value,
+            values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)),
+        });
     }
 
     get completed() {
