@@ -139,7 +139,6 @@ class ToDo {
     }
 
     async updateDueDate(task) {
-        console.log(task);
         const { data: { value } } = await axios.put(`${process.env.REACT_APP_SERVER_API}/tasks/${task._id}`, {
             dueDate: task.dueDate,
         }, {
