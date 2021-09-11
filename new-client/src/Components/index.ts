@@ -6,6 +6,7 @@ import { default as ClockComp } from './Clock';
 import * as Bookmark from './Bookmark';
 import * as Completed from './Completed';
 import * as Priority from './Priority';
+import * as Clocks from './ClockIcons';
 
 export const AddTask = Add;
 export const ListTask = List;
@@ -15,4 +16,5 @@ export const Icons = {
     ...Bookmark,
     ...Completed,
     ...Priority,
+    ...Clocks,
 };

@@ -18,6 +18,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+import EventBusyRoundedIcon from '@material-ui/icons/EventBusyRounded';
+import EventAvailableRoundedIcon from '@material-ui/icons/EventAvailableRounded';
 import moment from 'moment';
 import Store from '../../Store';
 import { Clock, Icons } from '../../Components';
@@ -161,7 +163,8 @@ export const RightDrawer = observer((props:any) => {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                     >
-                        {toDo.dueDate}
+                        {toDo.expired ? <EventBusyRoundedIcon /> : <EventAvailableRoundedIcon />}
+                        <span style={{ paddingLeft: '2%' }}>{toDo.dueDate}</span>
                     </button>
                     <div
                         className="dropdown-menu"
@@ -174,14 +177,16 @@ export const RightDrawer = observer((props:any) => {
                             type="button"
                             onClick={() => Store.updateDueDate({ _id: task._id, dueDate: getDueDate('Tomorrow') })}
                         >
-                            Tomorrow
+                            <Icons.Date />
+                            <span>Tomorrow</span>
                         </button>
                         <button
                             className="dropdown-item"
                             type="button"
                             onClick={() => Store.updateDueDate({ _id: task._id, dueDate: getDueDate('Week') })}
                         >
-                            Next Week
+                            <Icons.Week />
+                            <span>Next Week</span>
                         </button>
                         <div className="dropdown">
                             <button
@@ -190,8 +195,10 @@ export const RightDrawer = observer((props:any) => {
                                 id="dropdownMenuButton"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
+                                style={{ pointerEvents: 'none' }}
                             >
-                                Select A Date
+                                <Icons.Month />
+                                <span>Pick A Date</span>
                             </button>
                             <div className="dropdown-content">
                                 <Clock submit={(dueDate:string) => {
