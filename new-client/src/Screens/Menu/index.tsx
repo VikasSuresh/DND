@@ -39,7 +39,7 @@ export const RightDrawer = observer((props:any) => {
         dueDate: '',
         expired: false,
     });
-    // const [clock, setClock] = React.useState(false);
+    const [clock, setClock] = React.useState('');
 
     const toDo = Store.aToDo;
 
@@ -191,10 +191,16 @@ export const RightDrawer = observer((props:any) => {
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                Custom Date
+                                Select A Date
                             </button>
                             <div className="dropdown-content">
-                                <Clock />
+                                <Clock submit={(dueDate:string) => {
+                                    if (clock !== dueDate) {
+                                        Store.updateDueDate({ _id: task._id, dueDate: getDueDate(dueDate) });
+                                    }
+                                    setClock(dueDate);
+                                }}
+                                />
                             </div>
                         </div>
                     </div>
@@ -211,7 +217,7 @@ const getDueDate = (cond: string) => {
         case 'Week':
             return moment(new Date()).add(7, 'd').endOf('day');
         default:
-            return moment(new Date(cond)).endOf('day');
+            return moment(new Date(cond));
     }
 };
 

@@ -4,10 +4,12 @@
 }
 
 .dropdown-content {
-    display: none;
+    visibility: hidden;
+    transition: all 0s ease 120s;
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
+    visibility: visible;
+    transition-delay: 0s;
 }
 

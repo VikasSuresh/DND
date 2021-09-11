@@ -16,7 +16,6 @@ const put = async (req, res, next) => {
         if (toBeUpdated.dueDate) {
             toBeUpdated.dueDate = moment(toBeUpdated.dueDate);
             const hours = toBeUpdated.dueDate.diff(moment(new Date()), 'hours');
-            if (hours < 0) throw new Error('Wrong Date');
             if (hours <= 3) toBeUpdated.priority = true;
         }
 
