@@ -10,9 +10,9 @@ module.exports = (val) => {
 
 function genDateString(val) {
     const { dueDate } = val;
-    const date = moment(dueDate).diff(new Date(), 'days');
-    if (date < 0) return { ...val, expired: true, dueDate: moment(dueDate).format('llll') };
-    if (date === 0) return { ...val, expired: false, dueDate: 'Today' };
-    if (date === 1) return { ...val, expired: false, dueDate: 'Tomorrow' };
+    const seconds = moment(dueDate).diff(new Date(), 'seconds');
+    if (seconds <= 0) return { ...val, expired: true, dueDate: moment(dueDate).format('llll') };
+    if (seconds > 0 && seconds <= 86400) return { ...val, expired: false, dueDate: 'Today' };
+    if (seconds > 86400 && seconds <= 172800) return { ...val, expired: false, dueDate: 'Tomorrow' };
     return { ...val, expired: false, dueDate: moment(dueDate).format('llll') };
 }
