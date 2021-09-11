@@ -18,9 +18,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
-import { Button } from '@material-ui/core';
+import moment from 'moment';
 import Store from '../../Store';
-import { Icons } from '../../Components';
+import { Clock, Icons } from '../../Components';
+import './index.css';
 
 const drawerWidth = 350;
 
@@ -35,7 +36,10 @@ export const RightDrawer = observer((props:any) => {
         completed: false,
         priority: false,
         bookmarked: false,
+        dueDate: '',
+        expired: false,
     });
+    // const [clock, setClock] = React.useState(false);
 
     const toDo = Store.aToDo;
 
@@ -149,15 +153,67 @@ export const RightDrawer = observer((props:any) => {
                         </button>
                     </ListItem>
                 </List>
-                <List style={{ top: '7%' }}>
-                    <ListItem>
-                        <Button fullWidth variant="contained">Add Due Date</Button>
-                    </ListItem>
-                </List>
+                <div style={{ top: '7%' }} className="btn-group" role="group" aria-label="drop-down">
+                    <button
+                        type="button"
+                        className={toDo.expired ? 'btn btn-outline-danger btn-block dropdown-toggle' : 'btn btn-secondary btn-block dropdown-toggle'}
+                        id="dropdownMenu"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        {toDo.dueDate}
+                    </button>
+                    <div
+                        className="dropdown-menu"
+                        aria-labelledby="dropdownMenu"
+                        style={{ width: '100%', textAlign: 'center' }}
+                    >
+                        <h6 className="dropdown-header">Due</h6>
+                        <button
+                            className="dropdown-item"
+                            type="button"
+                            onClick={() => Store.updateDueDate({ _id: task._id, dueDate: getDueDate('Tomorrow') })}
+                        >
+                            Tomorrow
+                        </button>
+                        <button
+                            className="dropdown-item"
+                            type="button"
+                            onClick={() => Store.updateDueDate({ _id: task._id, dueDate: getDueDate('Week') })}
+                        >
+                            Next Week
+                        </button>
+                        <div className="dropdown">
+                            <button
+                                className="dropdown-item"
+                                type="button"
+                                id="dropdownMenuButton"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                Custom Date
+                            </button>
+                            <div className="dropdown-content">
+                                <Clock />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Drawer>
         </div>
     );
 });
+
+const getDueDate = (cond: string) => {
+    switch (cond) {
+        case 'Tomorrow':
+            return moment(new Date()).add(1, 'd').endOf('day');
+        case 'Week':
+            return moment(new Date()).add(7, 'd').endOf('day');
+        default:
+            return moment(new Date(cond)).endOf('day');
+    }
+};
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
