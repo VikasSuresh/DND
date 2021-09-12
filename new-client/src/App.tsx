@@ -8,7 +8,6 @@ import {
 const App = () => (
     <Router>
         <Switch>
-            <Route path="/" component={Sign} />
             <Route
                 path="/bookmarks"
                 render={(props) => (
@@ -31,7 +30,7 @@ const App = () => (
                     </Left>
                 )}
             />
-
+            <Route path="/" component={Sign} />
         </Switch>
     </Router>
 );
