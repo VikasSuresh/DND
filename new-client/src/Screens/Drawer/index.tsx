@@ -1,5 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import {
     createStyles, makeStyles, useTheme, Theme,
@@ -88,7 +89,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 export function MiniDrawer(props:any) {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [auth, setAuth] = useState<Boolean>();
+
+    useEffect(() => {
+        const cred = localStorage.getItem('credentials');
+        if (cred) {
+            setAuth(true);
+        } else {
+            setAuth(false);
+        }
+    });
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -98,74 +109,84 @@ export function MiniDrawer(props:any) {
         setOpen(false);
     };
 
-    return (
-    // eslint-disable-next-line react/jsx-filename-extension
-        <div className={classes.root}>
-            <CssBaseline />
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
-            >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap>
-                        To Do
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
+    if (auth === false) {
+        return (
+            <Redirect to="/" />
+        );
+    }
+    if (auth === true) {
+        return (
+            // eslint-disable-next-line react/jsx-filename-extension
+            <div className={classes.root}>
+                <CssBaseline />
+                <AppBar
+                    position="fixed"
+                    className={clsx(classes.appBar, {
+                        [classes.appBarShift]: open,
+                    })}
+                >
+                    <Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            className={clsx(classes.menuButton, {
+                                [classes.hide]: open,
+                            })}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" noWrap>
+                            To Do
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    variant="permanent"
+                    className={clsx(classes.drawer, {
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
-                    }),
-                }}
-            >
-                <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <List>
-                    <ListItem button key="Today" component="a" href="/">
-                        <ListItemIcon><InboxIcon /></ListItemIcon>
-                        <ListItemText primary="Today" />
-                    </ListItem>
-                    <ListItem button key="Bookmarked" component="a" href="/bookmarks">
-                        <ListItemIcon><MailIcon /></ListItemIcon>
-                        <ListItemText primary="Bookmarked" />
-                    </ListItem>
-                    <ListItem button key="Planned" component="a" href="/planned">
-                        <ListItemIcon><InboxIcon /></ListItemIcon>
-                        <ListItemText primary="Planned" />
-                    </ListItem>
-                    <ListItem button key="Tasks" component="a" href="/tasks">
-                        <ListItemIcon><MailIcon /></ListItemIcon>
-                        <ListItemText primary="Tasks" />
-                    </ListItem>
-                </List>
-            </Drawer>
-            <main className={classes.content}>
-                <div className={classes.toolbar} />
-                {props.children}
-            </main>
-        </div>
+                    })}
+                    classes={{
+                        paper: clsx({
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open,
+                        }),
+                    }}
+                >
+                    <div className={classes.toolbar}>
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
+                    </div>
+                    <List>
+                        <ListItem button key="Today" component="a" href="/">
+                            <ListItemIcon><InboxIcon /></ListItemIcon>
+                            <ListItemText primary="Today" />
+                        </ListItem>
+                        <ListItem button key="Bookmarked" component="a" href="/bookmarks">
+                            <ListItemIcon><MailIcon /></ListItemIcon>
+                            <ListItemText primary="Bookmarked" />
+                        </ListItem>
+                        <ListItem button key="Planned" component="a" href="/planned">
+                            <ListItemIcon><InboxIcon /></ListItemIcon>
+                            <ListItemText primary="Planned" />
+                        </ListItem>
+                        <ListItem button key="Tasks" component="a" href="/tasks">
+                            <ListItemIcon><MailIcon /></ListItemIcon>
+                            <ListItemText primary="Tasks" />
+                        </ListItem>
+                    </List>
+                </Drawer>
+                <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                    {props.children}
+                </main>
+            </div>
+        );
+    }
+    return (
+        <h1>Loading</h1>
     );
 }
