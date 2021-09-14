@@ -1,9 +1,10 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import {
-    createStyles, makeStyles, useTheme, Theme,
+    createStyles, makeStyles, useTheme, Theme, alpha,
 } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,6 +21,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Badge from '@material-ui/core/Badge';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+import { Notification } from '../../Components';
 
 const drawerWidth = 240;
 
@@ -83,6 +90,53 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    },
+    grow: {
+        flexGrow: 1,
+    },
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: alpha(theme.palette.common.white, 0.25),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: 0,
+        left: '33%',
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+    },
+    searchIcon: {
+        padding: theme.spacing(0, 2),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    inputRoot: {
+        color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
+        },
+    },
 }));
 
 // eslint-disable-next-line import/prefer-default-export
@@ -114,6 +168,8 @@ export function MiniDrawer(props:any) {
             <Redirect to="/" />
         );
     }
+    const menuId = 'primary-search-account-menu';
+
     if (auth === true) {
         return (
             // eslint-disable-next-line react/jsx-filename-extension
@@ -140,6 +196,65 @@ export function MiniDrawer(props:any) {
                         <Typography variant="h6" noWrap>
                             To Do
                         </Typography>
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </div>
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop}>
+                            <div className="btn-group">
+                                <IconButton
+                                    aria-label="show 2 new notifications"
+                                    data-bs-toggle="dropdown"
+                                    id="dropdownMenu"
+                                    color="inherit"
+                                    aria-expanded="false"
+                                >
+                                    <Badge badgeContent={2} color="secondary">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                                <Notification />
+                            </div>
+                            <div className="btn-group">
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-haspopup="true"
+                                    aria-controls={menuId}
+                                    data-bs-toggle="dropdown"
+                                    id="dropdownMenu"
+                                    color="inherit"
+                                    aria-expanded="false"
+                                >
+                                    <AccountCircle />
+                                </IconButton>
+                                <div className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                                    <a className="dropdown-item" href="/profile">Profile</a>
+                                    <button
+                                        className="dropdown-item"
+                                        type="button"
+                                        onClick={() => {
+                                            localStorage.removeItem('credentials');
+                                            setAuth(false);
+                                        }}
+                                    >
+                                        Logout
+
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
                     </Toolbar>
                 </AppBar>
                 <Drawer

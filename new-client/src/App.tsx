@@ -1,8 +1,9 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {
-    Home, Left, Sign, Right,
+    Home, Left, Sign, Right, Profile,
 } from './Screens'; // eslint-disable-line import/no-unresolved
 
 const App = () => (
@@ -30,6 +31,7 @@ const App = () => (
                     </Left>
                 )}
             />
+            <Route path="/profile" component={Profile} />
             <Route path="/" component={Sign} />
         </Switch>
     </Router>
