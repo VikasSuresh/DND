@@ -16,7 +16,5 @@ npm start
 
 1. server - Basic Server App(Revamping).
 
-2. client - Basic React App with Mobx state management(Dead).
-
-3. new-client - Basic React App with Mobx state management (Ongoing).
+2. client - Basic React App with Mobx state management (Ongoing).
 
