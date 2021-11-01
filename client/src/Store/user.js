@@ -10,7 +10,7 @@ class User {
         img: '',
         name: '',
         email: '',
-        authenticated: false,
+        authenticated: '',
     };
 
     constructor() {
@@ -22,18 +22,22 @@ class User {
     }
 
     async fetch() {
-        const { data: { value } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/users`, {
-            withCredentials: true,
-        });
+        try {
+            const { data: { value } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/users`, {
+                withCredentials: true,
+            });
 
-        this.user = {
-            ...this.user,
-            name: value.name,
-            img: value.img,
-            email: value.email,
-            _id: value._id,
-            authenticated: true,
-        };
+            this.user = {
+                ...this.user,
+                name: value.name,
+                img: value.img,
+                email: value.email,
+                _id: value._id,
+                authenticated: 'Authorized',
+            };
+        } catch (error) {
+            this.user.authenticated = 'Not Authorized';
+        }
     }
 
     async logout() {

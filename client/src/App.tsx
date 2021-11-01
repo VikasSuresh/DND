@@ -13,39 +13,40 @@ const App = observer(() => {
     useEffect(() => {
         Store.fetch();
     }, []);
-    if (Store.user.authenticated) {
-        return (
-            <Router>
-                <Route
-                    path="/bookmarks"
-                    render={(props) => (
-                        <Left>
-                            <Right render={(properties: any) => (
-                                <Home path="bookmarks" handleDrawerOpen={properties} {...props} />
-                            )}
-                            />
-                        </Left>
-                    )}
-                />
-                <Route
-                    exact
-                    path="/"
-                    render={(props) => (
-                        <Left>
-                            <Right render={(properties: any) => (
-                                <Home handleDrawerOpen={properties} {...props} />
-                            )}
-                            />
-                        </Left>
-                    )}
-                />
-                <Route path="/profile" component={Profile} />
-            </Router>
-        );
+
+    if (Store.user.authenticated === 'Authorized' && window.location.pathname === '/auth') {
+        window.location.href = '/';
+    }
+    if (Store.user.authenticated === 'Not Authorized' && window.location.pathname !== '/auth') {
+        window.location.href = '/auth';
     }
 
     return (
         <Router>
+            <Route
+                path="/bookmarks"
+                render={(props) => (
+                    <Left>
+                        <Right render={(properties: any) => (
+                            <Home path="bookmarks" handleDrawerOpen={properties} {...props} />
+                        )}
+                        />
+                    </Left>
+                )}
+            />
+            <Route
+                exact
+                path="/"
+                render={(props) => (
+                    <Left>
+                        <Right render={(properties: any) => (
+                            <Home handleDrawerOpen={properties} {...props} />
+                        )}
+                        />
+                    </Left>
+                )}
+            />
+            <Route path="/profile" component={Profile} />
             <Route path="/auth" component={Sign} />
         </Router>
     );
