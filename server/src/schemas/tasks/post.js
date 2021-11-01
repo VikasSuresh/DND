@@ -9,7 +9,7 @@ const post = async (req, res, next) => {
 
         const { body } = req;
 
-        const Task = mongoose.model('task');
+        const Task = mongoose.model('Task');
 
         const date = {};
 

@@ -7,7 +7,7 @@ const del = async (req, res, next) => {
 
         const { taskId } = req.params;
 
-        const Task = mongoose.model('task');
+        const Task = mongoose.model('Task');
 
         const query = {
             _id: mongoose.mongo.ObjectId(taskId),

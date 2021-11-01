@@ -13,7 +13,7 @@ const get = async (req, res, next) => {
 
         const { filter, sort } = Generator(rest);
 
-        const Task = mongoose.model('task');
+        const Task = mongoose.model('Task');
 
         const query = {
             ...filter,

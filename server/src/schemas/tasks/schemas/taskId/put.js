@@ -9,7 +9,7 @@ const put = async (req, res, next) => {
 
         const { body, params: { taskId } } = req;
 
-        const Task = mongoose.model('task');
+        const Task = mongoose.model('Task');
 
         const toBeUpdated = body;
 
