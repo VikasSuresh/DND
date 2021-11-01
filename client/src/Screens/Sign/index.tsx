@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-// import axios from 'axios';
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import './index.css';
 
-const LoginForm = () => {
+const LoginForm = (props:any) => {
     const emailCheck = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     const [state, setState] = useState(false);
@@ -12,7 +11,6 @@ const LoginForm = () => {
         email: '',
         password: '',
         err: '',
-        login: false,
     });
     const [reg, setReg] = useState({
         name: '',
@@ -22,7 +20,7 @@ const LoginForm = () => {
         err: '',
     });
 
-    const regSubmit = (e:any) => {
+    const regSubmit = async (e:any) => {
         e.preventDefault();
         const {
             name, email, password, confirm,
@@ -35,18 +33,27 @@ const LoginForm = () => {
         else if (!passwordCheck.test(password))setReg((prevState) => ({ ...prevState, err: 'Should Have 8 characters with a Number and a Special Character' }));
         else if (password !== confirm) setReg((prevState) => ({ ...prevState, err: 'Password Must Be Same' }));
         else {
-            const exists = 'axios';
-            if (exists)setReg((prevState) => ({ ...prevState, err: 'Email Already Exists' }));
-            else {
-                setReg({
-                    name: '', email: '', password: '', confirm: '', err: '',
+            try {
+                await axios.post(`${process.env.REACT_APP_SERVER_API}/users/register`, {
+                    name,
+                    email,
+                    password,
+                }, {
+                    withCredentials: true,
                 });
-                setState(false);
+
+                window.location.reload();
+            } catch (error:any) {
+                if (error.message.indexOf('403') !== -1) {
+                    setReg((prevState) => ({ ...prevState, err: 'Email Already Exists.' }));
+                } else {
+                    setReg((prevState) => ({ ...prevState, err: 'Error.' }));
+                }
             }
         }
     };
 
-    const loginSubmit = (e:any) => {
+    const loginSubmit = async (e:any) => {
         e.preventDefault();
         const {
             email, password,
@@ -55,22 +62,26 @@ const LoginForm = () => {
         if (!email || !password) setLogin((prevState) => ({ ...prevState, err: 'All Fields Should be Filled' }));
         else if (!emailCheck.test(email)) setLogin((prevState) => ({ ...prevState, err: 'Not Valid Email Format' }));
         else {
-            const exists = 'axios.get()';
-            if (!exists)setLogin((prevState) => ({ ...prevState, err: 'User Does not exist.' }));
-            else {
-                setLogin({
-                    email: '', password: '', err: '', login: true,
+            try {
+                await axios.post(`${process.env.REACT_APP_SERVER_API}/users/login`, {
+                    email,
+                    password,
+                }, {
+                    withCredentials: true,
                 });
-                localStorage.setItem('credentials', 'true');
+
+                props.history.push('/tasks');
+            } catch (error:any) {
+                if (error.message.indexOf('404') !== -1) {
+                    setLogin((prevState) => ({ ...prevState, err: 'User Does not exist.' }));
+                } else if (error.message.indexOf('403') !== -1) {
+                    setLogin((prevState) => ({ ...prevState, err: 'Invalid Password.' }));
+                } else {
+                    setLogin((prevState) => ({ ...prevState, err: 'Error.' }));
+                }
             }
         }
     };
-
-    if (login.login) {
-        return (
-            <Redirect to="/tasks" />
-        );
-    }
 
     return (
         <section style={{ backgroundColor: state ? '#256cca' : '#da3846f6' }}>
@@ -88,7 +99,7 @@ const LoginForm = () => {
                             <input type="submit" value="Login" />
                             <p className="signup">
                                 {'Don\'t have an account ?'}
-                                <a href="#" onClick={() => setState(true)}>Sign Up.</a>
+                                <a href="#" onClick={() => setState(true)}> Sign Up.</a>
                             </p>
                         </form>
                     </div>
@@ -117,7 +128,7 @@ const LoginForm = () => {
                             <input type="submit" value="Sign Up" />
                             <p className="signin">
                                 Already have an account ?
-                                <a href="#" onClick={() => setState(false)}>Sign in.</a>
+                                <a href="#" onClick={() => setState(false)}> Sign in.</a>
                             </p>
                         </form>
                     </div>
