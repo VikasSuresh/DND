@@ -64,12 +64,20 @@ class User {
         this.user.err = err;
     }
 
-    updateUser(pwd) {
-        if (!pwd) {
-            console.log('without');
-        } else {
-            console.log('with');
+    async updateUser(pwd) {
+        const body = {
+            name: this.user.name,
+            img: this.user.img,
+        };
+
+        if (pwd) {
+            body.password = this.user.password;
         }
+
+        await axios.put(`${process.env.REACT_APP_SERVER_API}/users`, body, {
+            withCredentials: true,
+        });
+
         this.user.err = '';
     }
 
