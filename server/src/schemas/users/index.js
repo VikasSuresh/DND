@@ -1,10 +1,11 @@
 const Router = require('express').Router({ mergeParams: true });
+const { AuthMiddleware } = require('../../middlewares');
 
-const { TaskId } = require('./schemas');
+const { UserId } = require('./schemas');
 
 Router.post('/', require('./login'));
 Router.post('/', require('./register'));
 
-Router.use('/:taskId', TaskId);
+Router.use('/:userId', AuthMiddleware, UserId);
 
 module.exports = Router;
