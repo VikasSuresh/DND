@@ -82,13 +82,16 @@ class User {
     }
 
     async logout() {
+        await axios.post(`${process.env.REACT_APP_SERVER_API}/users/logout`, {}, {
+            withCredentials: true,
+        });
+
         this.user = {
             ...this.user,
             name: '',
             img: '',
             email: '',
             _id: 0,
-            authenticated: false,
         };
     }
 }
