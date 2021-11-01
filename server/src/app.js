@@ -33,15 +33,11 @@ app.use('/', require('./routes'));
 
 app.use(ErrorMiddleware);
 
-mongoose.connect(process.env.MONGO_URI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log('Connected');
-}).catch((err) => {
-    console.log(err);
-});
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log('Connected');
+    }).catch((err) => {
+        console.log(err);
+    });
 
 module.exports = app;
