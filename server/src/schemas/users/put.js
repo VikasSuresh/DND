@@ -8,15 +8,9 @@ const put = async (req, res, next) => {
 
         const { userId } = req.state;
 
-        const { name, password } = req.body;
+        const { password, ...update } = req.body;
 
         const User = mongoose.model('User');
-
-        const update = {};
-
-        if (name) {
-            update.name = name;
-        }
 
         if (password) {
             update.password = await bcrypt.hash(password, saltRounds);
