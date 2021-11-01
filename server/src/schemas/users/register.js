@@ -15,7 +15,7 @@ const register = async (req, res, next) => {
         });
 
         if (emailExist) {
-            return res.status(409).send({
+            return res.status(403).send({
                 success: false,
                 value: null,
                 message: 'Email Already Exists',
