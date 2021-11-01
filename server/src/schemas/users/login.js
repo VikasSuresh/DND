@@ -43,6 +43,7 @@ const login = async (req, res, next) => {
         return res.cookie('DSID', token, {
             expires: new Date(expiry),
             httpOnly: true,
+            secure: true,
         }).end();
     } catch (error) {
         return next(error);

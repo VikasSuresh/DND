@@ -6,7 +6,7 @@ const put = async (req, res, next) => {
     try {
         const saltRounds = 10;
 
-        const { userId } = req.params;
+        const { userId } = req.state;
 
         const { name, password } = req.body;
 

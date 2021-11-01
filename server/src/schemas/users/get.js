@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-const validator = require('./validators/get');
 
 const get = async (req, res, next) => {
     try {
-        const { userId } = req.params;
+        const { userId } = req.state;
 
         const User = mongoose.model('User');
 
@@ -24,4 +23,4 @@ const get = async (req, res, next) => {
     }
 };
 
-module.exports = [validator, get];
+module.exports = get;
