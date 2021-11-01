@@ -3,8 +3,8 @@ const { AuthMiddleware } = require('../../middlewares');
 
 const { UserId } = require('./schemas');
 
-Router.post('/', require('./login'));
-Router.post('/', require('./register'));
+Router.post('/login', require('./login'));
+Router.post('/register', require('./register'));
 
 Router.use('/:userId', AuthMiddleware, UserId);
 
