@@ -7,7 +7,7 @@ const app = express();
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const ErrorMiddleware = require('./middlewares');
+const { ErrorMiddleware } = require('./middlewares');
 
 require('./model');
 
