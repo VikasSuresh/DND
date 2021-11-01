@@ -70,7 +70,7 @@ const LoginForm = (props:any) => {
                     withCredentials: true,
                 });
 
-                props.history.push('/tasks');
+                props.history.push('/');
             } catch (error:any) {
                 if (error.message.indexOf('404') !== -1) {
                     setLogin((prevState) => ({ ...prevState, err: 'User Does not exist.' }));
