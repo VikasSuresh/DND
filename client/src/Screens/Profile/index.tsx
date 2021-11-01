@@ -1,61 +1,33 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable max-len */
-import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
 import './index.css';
+import { observer } from 'mobx-react';
+import { User as Store } from '../../Store';
 
-const LoginForm = () => {
-    const [details, setDetails] = useState({
-        name: '',
-        email: '',
-        password: '',
-        confirm: '',
-        img: '',
-        err: '',
-    });
-
-    useEffect(() => {
-        const cred = localStorage.getItem('credentials');
-        if (cred) {
-            setDetails({
-                name: 'Name',
-                email: 'standard',
-                password: 'Password',
-                confirm: 'Password',
-                img: 'https://bootdey.com/img/Content/avatar/avatar6.png',
-                err: '',
-            });
-        } else {
-            setDetails({
-                name: '',
-                email: '',
-                password: '',
-                confirm: '',
-                img: '',
-                err: 'Authentication Error',
-            });
-        }
-    }, []);
-
+const LoginForm = observer(() => {
     const submit = () => {
         const {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             err,
+            password,
+            confirm,
             ...rest
-        } = details;
+        } = Store.user;
 
         const passwordCheck = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
 
-        if (Object.values(rest).every((el) => el !== '')) {
-            if (!passwordCheck.test(rest.password)) {
-                setDetails((prev) => ({ ...prev, err: 'Should Have 8 characters with a Number and a Special Character' }));
-            } else if (rest.password !== rest.confirm) {
-                setDetails((prev) => ({ ...prev, err: 'Password Must Be Same' }));
+        if (!rest.name)Store.setError('Name  Shouldn\'t Be Empty');
+        else if (password && password !== '*******') {
+            if (!passwordCheck.test(password)) {
+                Store.setError('Should Have 8 characters with a Number and a Special Character');
+            } else if (password !== confirm) {
+                Store.setError('Password Must Be Same');
             } else {
-                setDetails((prev) => ({ ...prev, err: '' }));
+                Store.updateUser(true);
             }
         } else {
-            setDetails((prev) => ({ ...prev, err: 'All Fields Required' }));
+            Store.updateUser(false);
         }
     };
 
@@ -64,15 +36,9 @@ const LoginForm = () => {
             const formData = new FormData();
             formData.append('file', e.target.files[0]);
         } else {
-            setDetails((prev) => ({ ...prev, err: 'File Upload Not Successfull' }));
+            Store.setError('File Upload Not Successfull');
         }
     };
-
-    if (details.err === 'Authentication Error') {
-        return (
-            <Redirect to="/auth" />
-        );
-    }
 
     return (
         <div
@@ -81,10 +47,10 @@ const LoginForm = () => {
         >
             <div className="main-body">
                 <div className="row">
-                    <h6 style={{ textAlign: 'center', color: 'red' }}>{details.err}</h6>
+                    <h6 style={{ textAlign: 'center', color: 'red' }}>{Store.user.err}</h6>
                     <div className="col-lg-1" style={{ marginTop: '10%' }}>
                         <a
-                            href="/tasks"
+                            href="/"
                             style={{
                                 border: 'none',
                                 outline: 'none',
@@ -104,7 +70,7 @@ const LoginForm = () => {
                         <div className="card">
                             <div className="card-body">
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    <img src={details.img} alt="Admin" className="rounded-circle p-1 bg-primary" width="100" />
+                                    <img src={Store.user.img} alt="Admin" className="rounded-circle p-1 bg-primary" width="100" />
                                     <div className="mt-3">
                                         <h4>User</h4>
                                         <p className="text-secondary mb-1">email</p>
@@ -128,8 +94,8 @@ const LoginForm = () => {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                onChange={(e) => setDetails((prev) => ({ ...prev, name: e.target.value }))}
-                                                value={details.name}
+                                                onChange={(e) => Store.setName(e.target.value)}
+                                                value={Store.user.name}
                                             />
                                         </div>
                                     </div>
@@ -138,7 +104,7 @@ const LoginForm = () => {
                                             <h6 className="mb-0">Email</h6>
                                         </div>
                                         <div className="col-sm-9 text-secondary">
-                                            <input type="text" disabled className="form-control" value={details.email} />
+                                            <input type="text" disabled className="form-control" value={Store.user.email} />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -149,8 +115,8 @@ const LoginForm = () => {
                                             <input
                                                 type="password"
                                                 className="form-control"
-                                                onChange={(e) => setDetails((prev) => ({ ...prev, password: e.target.value }))}
-                                                value={details.password}
+                                                onChange={(e) => Store.setPassword(e.target.value)}
+                                                value={Store.user.password}
                                                 autoComplete="true"
                                             />
                                         </div>
@@ -163,8 +129,8 @@ const LoginForm = () => {
                                             <input
                                                 type="password"
                                                 className="form-control"
-                                                onChange={(e) => setDetails((prev) => ({ ...prev, confirm: e.target.value }))}
-                                                value={details.confirm}
+                                                onChange={(e) => Store.setConfirm(e.target.value)}
+                                                value={Store.user.confirm}
                                                 autoComplete="true"
                                             />
                                         </div>
@@ -191,6 +157,6 @@ const LoginForm = () => {
             </div>
         </div>
     );
-};
+});
 
 export default LoginForm;
