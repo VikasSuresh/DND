@@ -14,6 +14,14 @@ class User {
         password: '*******',
         confirm: '*******',
         err: '',
+        usersData: {
+            Completed: 0,
+            NotCompleted: 0,
+            Prioritized: 0,
+            NotPrioritized: 0,
+            Expired: 0,
+            NotExpired: 0,
+        },
     };
 
     constructor() {
@@ -79,6 +87,14 @@ class User {
         });
 
         this.user.err = '';
+    }
+
+    async fetchUsersData() {
+        const { data: { value } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks/aggregated`, {
+            withCredentials: true,
+        });
+
+        this.user.usersData = value;
     }
 
     async logout() {

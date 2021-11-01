@@ -1,11 +1,15 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
 import { observer } from 'mobx-react';
 import { User as Store } from '../../Store';
 
 const LoginForm = observer(() => {
+    useEffect(() => {
+        Store.fetchUsersData();
+    }, []);
+
     const submit = () => {
         const {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -72,11 +76,13 @@ const LoginForm = observer(() => {
                                 <div className="d-flex flex-column align-items-center text-center">
                                     <img src={Store.user.img} alt="Admin" className="rounded-circle p-1 bg-primary" width="100" />
                                     <div className="mt-3">
-                                        <h4>User</h4>
-                                        <p className="text-secondary mb-1">email</p>
-                                        <p className="text-muted font-size-sm">Completed</p>
-                                        <p className="text-muted font-size-sm">Expired</p>
-                                        <p className="text-muted font-size-sm">Overdue</p>
+                                        {Object.entries(Store.user.usersData).map(([k, v]) => (
+                                            <p className="text-primary mb-2">
+                                                {k}
+                                                :&nbsp;
+                                                {v}
+                                            </p>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
