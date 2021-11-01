@@ -70,7 +70,7 @@ const LoginForm = () => {
 
     if (details.err === 'Authentication Error') {
         return (
-            <Redirect to="/" />
+            <Redirect to="/auth" />
         );
     }
 

@@ -21,7 +21,7 @@ import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import EventBusyRoundedIcon from '@material-ui/icons/EventBusyRounded';
 import EventAvailableRoundedIcon from '@material-ui/icons/EventAvailableRounded';
 import moment from 'moment';
-import Store from '../../Store';
+import { Todo as Store } from '../../Store';
 import { Clock, Icons } from '../../Components';
 import './index.css';
 

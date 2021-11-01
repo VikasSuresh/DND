@@ -4,6 +4,7 @@ import { default as Add } from './Add';
 import { default as List } from './List';
 import { default as ClockComp } from './Clock';
 import { default as Notify } from './Notification';
+import Load from './Loading';
 import * as Bookmark from './Bookmark';
 import * as Completed from './Completed';
 import * as Priority from './Priority';
@@ -13,6 +14,7 @@ export const AddTask = Add;
 export const ListTask = List;
 export const Clock = ClockComp;
 export const Notification = Notify;
+export const Loading = Load;
 
 export const Icons = {
     ...Bookmark,

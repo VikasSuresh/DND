@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/destructuring-assignment */
-import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import {
     createStyles, makeStyles, useTheme, Theme, alpha,
@@ -27,6 +27,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { Notification } from '../../Components';
+import { User as Store } from '../../Store';
 
 const drawerWidth = 240;
 
@@ -144,16 +145,7 @@ export function MiniDrawer(props:any) {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = useState(false);
-    const [auth, setAuth] = useState<Boolean>();
-
-    useEffect(() => {
-        const cred = localStorage.getItem('credentials');
-        if (cred) {
-            setAuth(true);
-        } else {
-            setAuth(false);
-        }
-    });
+    const history = useHistory();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -163,145 +155,135 @@ export function MiniDrawer(props:any) {
         setOpen(false);
     };
 
-    if (auth === false) {
-        return (
-            <Redirect to="/" />
-        );
-    }
     const menuId = 'primary-search-account-menu';
 
-    if (auth === true) {
-        return (
-            // eslint-disable-next-line react/jsx-filename-extension
-            <div className={classes.root}>
-                <CssBaseline />
-                <AppBar
-                    position="fixed"
-                    className={clsx(classes.appBar, {
-                        [classes.appBarShift]: open,
-                    })}
-                >
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            className={clsx(classes.menuButton, {
-                                [classes.hide]: open,
-                            })}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" noWrap>
-                            To Do
-                        </Typography>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
+    return (
+    // eslint-disable-next-line react/jsx-filename-extension
+        <div className={classes.root}>
+            <CssBaseline />
+            <AppBar
+                position="fixed"
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+            >
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        className={clsx(classes.menuButton, {
+                            [classes.hide]: open,
+                        })}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap>
+                        To Do
+                    </Typography>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
                         </div>
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            <div className="btn-group">
-                                <IconButton
-                                    aria-label="show 2 new notifications"
-                                    data-bs-toggle="dropdown"
-                                    id="dropdownMenu"
-                                    color="inherit"
-                                    aria-expanded="false"
-                                >
-                                    <Badge badgeContent={2} color="secondary">
-                                        <NotificationsIcon />
-                                    </Badge>
-                                </IconButton>
-                                <Notification />
-                            </div>
-                            <div className="btn-group">
-                                <IconButton
-                                    edge="end"
-                                    aria-label="account of current user"
-                                    aria-haspopup="true"
-                                    aria-controls={menuId}
-                                    data-bs-toggle="dropdown"
-                                    id="dropdownMenu"
-                                    color="inherit"
-                                    aria-expanded="false"
-                                >
-                                    <AccountCircle />
-                                </IconButton>
-                                <div className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                                    <a className="dropdown-item" href="/profile">Profile</a>
-                                    <button
-                                        className="dropdown-item"
-                                        type="button"
-                                        onClick={() => {
-                                            localStorage.removeItem('credentials');
-                                            setAuth(false);
-                                        }}
-                                    >
-                                        Logout
-
-                                    </button>
-                                </div>
-                            </div>
-
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                    </div>
+                    <div className={classes.grow} />
+                    <div className={classes.sectionDesktop}>
+                        <div className="btn-group">
+                            <IconButton
+                                aria-label="show 2 new notifications"
+                                data-bs-toggle="dropdown"
+                                id="dropdownMenu"
+                                color="inherit"
+                                aria-expanded="false"
+                            >
+                                <Badge badgeContent={2} color="secondary">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton>
+                            <Notification />
                         </div>
-                    </Toolbar>
-                </AppBar>
-                <Drawer
-                    variant="permanent"
-                    className={clsx(classes.drawer, {
+                        <div className="btn-group">
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-haspopup="true"
+                                aria-controls={menuId}
+                                data-bs-toggle="dropdown"
+                                id="dropdownMenu"
+                                color="inherit"
+                                aria-expanded="false"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                            <div className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                                <a className="dropdown-item" href="/profile">Profile</a>
+                                <button
+                                    className="dropdown-item"
+                                    type="button"
+                                    onClick={() => {
+                                        Store.logout();
+                                        history.push('/auth');
+                                    }}
+                                >
+                                    Logout
+
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </Toolbar>
+            </AppBar>
+            <Drawer
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx({
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
-                    })}
-                    classes={{
-                        paper: clsx({
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
-                        }),
-                    }}
-                >
-                    <div className={classes.toolbar}>
-                        <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                        </IconButton>
-                    </div>
-                    <List>
-                        <ListItem button key="Today" component="a" href="/">
-                            <ListItemIcon><InboxIcon /></ListItemIcon>
-                            <ListItemText primary="Today" />
-                        </ListItem>
-                        <ListItem button key="Bookmarked" component="a" href="/bookmarks">
-                            <ListItemIcon><MailIcon /></ListItemIcon>
-                            <ListItemText primary="Bookmarked" />
-                        </ListItem>
-                        <ListItem button key="Planned" component="a" href="/planned">
-                            <ListItemIcon><InboxIcon /></ListItemIcon>
-                            <ListItemText primary="Planned" />
-                        </ListItem>
-                        <ListItem button key="Tasks" component="a" href="/tasks">
-                            <ListItemIcon><MailIcon /></ListItemIcon>
-                            <ListItemText primary="Tasks" />
-                        </ListItem>
-                    </List>
-                </Drawer>
-                <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                    {props.children}
-                </main>
-            </div>
-        );
-    }
-    return (
-        <h1>Loading</h1>
+                    }),
+                }}
+            >
+                <div className={classes.toolbar}>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </div>
+                <List>
+                    <ListItem button key="Today" component="a" href="/">
+                        <ListItemIcon><InboxIcon /></ListItemIcon>
+                        <ListItemText primary="Today" />
+                    </ListItem>
+                    <ListItem button key="Bookmarked" component="a" href="/bookmarks">
+                        <ListItemIcon><MailIcon /></ListItemIcon>
+                        <ListItemText primary="Bookmarked" />
+                    </ListItem>
+                    <ListItem button key="Planned" component="a" href="/planned">
+                        <ListItemIcon><InboxIcon /></ListItemIcon>
+                        <ListItemText primary="Planned" />
+                    </ListItem>
+                    <ListItem button key="Tasks" component="a" href="/tasks">
+                        <ListItemIcon><MailIcon /></ListItemIcon>
+                        <ListItemText primary="Tasks" />
+                    </ListItem>
+                </List>
+            </Drawer>
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
+                {props.children}
+            </main>
+        </div>
     );
 }

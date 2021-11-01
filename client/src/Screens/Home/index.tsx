@@ -2,7 +2,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
-import Store from '../../Store';
+import { Todo as Store } from '../../Store';
 import { AddTask, ListTask } from '../../Components';
 
 // interface Task {
