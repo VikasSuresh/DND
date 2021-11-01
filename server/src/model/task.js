@@ -35,5 +35,5 @@ const schema = new mongoose.Schema({
 });
 
 module.exports = {
-    Task: mongoose.model('task', schema),
+    Task: mongoose.model('Task', schema),
 };
