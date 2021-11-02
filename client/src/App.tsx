@@ -30,6 +30,7 @@ const App = observer(() => {
                 }
                 <Switch>
                     <Route
+                        exact
                         path="/bookmarks"
                         render={(props) => (
                             <Left>
@@ -52,8 +53,8 @@ const App = observer(() => {
                             </Left>
                         )}
                     />
-                    <Route path="/profile" component={Profile} />
-                    <Route path="/auth" component={Sign} />
+                    <Route exact path="/profile" component={Profile} />
+                    <Route exact path="/auth" component={Sign} />
                     <Route path="*" component={NotFound} />
                 </Switch>
             </Router>
