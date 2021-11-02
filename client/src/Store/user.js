@@ -1,5 +1,5 @@
 import {
-    makeObservable, observable, action,
+    makeObservable, observable, action, computed,
 } from 'mobx';
 
 const axios = require('axios').default;
@@ -10,7 +10,7 @@ class User {
         img: '',
         name: '',
         email: '',
-        authenticated: '',
+        authenticated: null,
         password: '*******',
         confirm: '*******',
         err: '',
@@ -34,6 +34,7 @@ class User {
             setName: action,
             setConfirm: action,
             setPassword: action,
+            authenticated: computed,
         });
     }
 
@@ -49,10 +50,10 @@ class User {
                 img: value.img,
                 email: value.email,
                 _id: value._id,
-                authenticated: 'Authorized',
+                authenticated: true,
             };
         } catch (error) {
-            this.user.authenticated = 'Not Authorized';
+            this.user.authenticated = false;
         }
     }
 
@@ -109,6 +110,10 @@ class User {
             email: '',
             _id: 0,
         };
+    }
+
+    get authenticated() {
+        return this.user.authenticated;
     }
 }
 
