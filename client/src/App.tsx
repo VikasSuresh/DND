@@ -53,6 +53,18 @@ const App = observer(() => {
                             </Left>
                         )}
                     />
+                    <Route
+                        exact
+                        path="/tasks"
+                        render={(props) => (
+                            <Left>
+                                <Right render={(properties: any) => (
+                                    <Home handleDrawerOpen={properties} {...props} />
+                                )}
+                                />
+                            </Left>
+                        )}
+                    />
                     <Route exact path="/profile" component={Profile} />
                     <Route exact path="/auth" component={Sign} />
                     <Route path="*" component={NotFound} />
