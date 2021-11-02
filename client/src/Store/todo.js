@@ -3,8 +3,16 @@ import {
 } from 'mobx';
 
 const axios = require('axios').default;
+const moment = require('moment');
 
 class ToDo {
+    pageInfo={
+        page: 0,
+        count: 0,
+        total_count: 0,
+        total_pages: 0,
+    };
+
     todos = [];
 
     todo = {
@@ -19,6 +27,7 @@ class ToDo {
 
     constructor() {
         makeObservable(this, {
+            pageInfo: observable,
             todos: observable,
             todo: observable,
             aToDo: computed,
@@ -38,8 +47,11 @@ class ToDo {
     }
 
     stateUpdate({
-        value, values, add,
+        value, values, add, pageInfo,
     }) {
+        if (pageInfo) {
+            this.pageInfo = pageInfo;
+        }
         if (values) {
             this.todos = values;
         }
@@ -51,12 +63,20 @@ class ToDo {
         }
     }
 
-    async fetch() {
-        const { data: { values } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks?all=true`, {
+    async fetch(path) {
+        let queryString = '';
+        if (path === 'bookmarks') {
+            queryString = '?filter=bookmarked';
+        } else if (path === 'today') {
+            const date = moment(new Date());
+
+            queryString = `?filter=dueDate:gte:${date.startOf('D').valueOf()},dueDate:lte:${date.endOf('D').valueOf()}`;
+        }
+        const { data: { value: { values, page_info: pageInfo } } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks${queryString}`, {
             withCredentials: true,
         });
 
-        this.stateUpdate({ values });
+        this.stateUpdate({ values, pageInfo });
     }
 
     async fetchOne(id) {

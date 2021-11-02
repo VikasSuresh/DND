@@ -47,7 +47,7 @@ const App = observer(() => {
                         render={(props) => (
                             <Left>
                                 <Right render={(properties: any) => (
-                                    <Home handleDrawerOpen={properties} {...props} />
+                                    <Home path="today" handleDrawerOpen={properties} {...props} />
                                 )}
                                 />
                             </Left>
@@ -59,7 +59,7 @@ const App = observer(() => {
                         render={(props) => (
                             <Left>
                                 <Right render={(properties: any) => (
-                                    <Home handleDrawerOpen={properties} {...props} />
+                                    <Home path="tasks" handleDrawerOpen={properties} {...props} />
                                 )}
                                 />
                             </Left>

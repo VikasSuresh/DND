@@ -28,7 +28,7 @@ export const Home = observer((props:any) => {
     // },[])
 
     useEffect(() => {
-        Store.fetch();
+        Store.fetch(props.path);
     }, []);
 
     function submit(name:string) {
@@ -64,14 +64,9 @@ export const Home = observer((props:any) => {
         }
     };
 
-    let not = Store.notCompleted;
+    const not = Store.notCompleted;
 
-    let done = Store.completed;
-
-    if (props.path === 'bookmarks') {
-        not = Store.notCompleted.filter((el) => el.bookmarked);
-        done = Store.completed.filter((el) => el.bookmarked);
-    }
+    const done = Store.completed;
 
     return (
         <div>
