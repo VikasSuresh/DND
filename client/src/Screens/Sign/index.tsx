@@ -84,7 +84,7 @@ const LoginForm = (props:any) => {
     };
 
     return (
-        <section style={{ backgroundColor: state ? '#256cca' : '#da3846f6' }}>
+        <section style={{ backgroundColor: state ? '#bd353f' : '#256cca' }}>
             <div className={state ? 'container active' : 'container'}>
                 <div className="user signinBx">
                     <div className="imgBx">
