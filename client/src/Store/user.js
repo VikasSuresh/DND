@@ -30,31 +30,14 @@ class User {
             fetch: action,
             logout: action,
             updateUser: action,
+            setValue: action,
+            fetchUsersData: action,
             setError: action,
             setName: action,
             setConfirm: action,
             setPassword: action,
             authenticated: computed,
         });
-    }
-
-    async fetch() {
-        try {
-            const { data: { value } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/users`, {
-                withCredentials: true,
-            });
-
-            this.user = {
-                ...this.user,
-                name: value.name,
-                img: value.img,
-                email: value.email,
-                _id: value._id,
-                authenticated: true,
-            };
-        } catch (error) {
-            this.user.authenticated = false;
-        }
     }
 
     setConfirm(confirm) {
@@ -71,6 +54,29 @@ class User {
 
     setError(err) {
         this.user.err = err;
+    }
+
+    async fetch() {
+        try {
+            const { data: { value } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/users`, {
+                withCredentials: true,
+            });
+
+            this.setValue(value);
+        } catch (error) {
+            this.user.authenticated = false;
+        }
+    }
+
+    setValue(value) {
+        this.user = {
+            ...this.user,
+            name: value.name,
+            img: value.img,
+            email: value.email,
+            _id: value._id,
+            authenticated: true,
+        };
     }
 
     async updateUser(pwd) {
