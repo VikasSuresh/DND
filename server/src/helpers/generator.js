@@ -2,13 +2,13 @@ const { Joi } = require('celebrate');
 const moment = require('moment');
 
 const validDate = (date) => {
-    const dateCheck = Joi.date();
+    const dateCheck = Joi.date().timestamp('unix');
 
     const { error } = dateCheck.validate(date);
 
     if (error) return new Date(moment(new Date()).endOf('day'));
 
-    return new Date(moment(date).endOf('day'));
+    return date;
 };
 
 module.exports = (others) => {
@@ -27,6 +27,7 @@ module.exports = (others) => {
                 return {
                     ...a,
                     dueDate: {
+                        ...a.dueDate,
                         [ ['gte', 'gt', 'lte', 'eq'].includes(split[ 1 ]) ? `$${ split[ 1 ] }` : '$lt' ]: validDate(split[ 2 ]),
                     },
                 };
