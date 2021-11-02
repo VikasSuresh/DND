@@ -4,6 +4,7 @@ import { RightDrawer } from '../Screens/Menu';
 import { MiniDrawer } from './Drawer';
 import Sign from './Sign';
 import Profile from './Profile';
+import NotFound from './NotFound';
 
 export {
     Home,
@@ -11,4 +12,5 @@ export {
     MiniDrawer as Left,
     Sign,
     Profile,
+    NotFound,
 };
