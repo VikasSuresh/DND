@@ -270,9 +270,9 @@ export function MiniDrawer(props:any) {
                         <ListItemIcon><MailIcon /></ListItemIcon>
                         <ListItemText primary="Bookmarked" />
                     </ListItem>
-                    <ListItem button key="Planned" component="a" href="/planned">
+                    <ListItem button key="Calendar" component="a" href="/calendar">
                         <ListItemIcon><InboxIcon /></ListItemIcon>
-                        <ListItemText primary="Planned" />
+                        <ListItemText primary="Calendar" />
                     </ListItem>
                     <ListItem button key="Tasks" component="a" href="/tasks">
                         <ListItemIcon><MailIcon /></ListItemIcon>
