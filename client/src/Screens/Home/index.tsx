@@ -64,9 +64,15 @@ export const Home = observer((props:any) => {
         }
     };
 
-    const not = Store.notCompleted;
+    let not = Store.notCompleted;
 
-    const done = Store.completed;
+    let done = Store.completed;
+
+    if (props.path === 'bookmarks') {
+        not = Store.notcompletedBookmark;
+
+        done = Store.completedBookmark;
+    }
 
     return (
         <div>

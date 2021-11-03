@@ -33,7 +33,8 @@ class ToDo {
             aToDo: computed,
             completed: computed,
             notCompleted: computed,
-            bookmarked: computed,
+            completedBookmark: computed,
+            notcompletedBookmark: computed,
             stateUpdate: action,
             fetch: action,
             fetchOne: action,
@@ -175,8 +176,12 @@ class ToDo {
         return this.todos.filter((el) => !el.completed);
     }
 
-    get bookmarked() {
-        return this.todos.filter((el) => el.bookmarked);
+    get completedBookmark() {
+        return this.todos.filter((el) => el.completed && el.bookmarked);
+    }
+
+    get notcompletedBookmark() {
+        return this.todos.filter((el) => !el.completed && el.bookmarked);
     }
 
     get aToDo() {
