@@ -6,13 +6,6 @@ const axios = require('axios').default;
 const moment = require('moment');
 
 class ToDo {
-    pageInfo={
-        page: 0,
-        count: 0,
-        total_count: 0,
-        total_pages: 0,
-    };
-
     todos = [];
 
     todo = {
@@ -27,7 +20,6 @@ class ToDo {
 
     constructor() {
         makeObservable(this, {
-            pageInfo: observable,
             todos: observable,
             todo: observable,
             aToDo: computed,
@@ -48,11 +40,8 @@ class ToDo {
     }
 
     stateUpdate({
-        value, values, add, pageInfo,
+        value, values, add,
     }) {
-        if (pageInfo) {
-            this.pageInfo = pageInfo;
-        }
         if (values) {
             this.todos = values;
         }
@@ -73,11 +62,11 @@ class ToDo {
 
             queryString = `?filter=dueDate:gte:${date.startOf('D').valueOf()},dueDate:lte:${date.endOf('D').valueOf()}`;
         }
-        const { data: { value: { values, page_info: pageInfo } } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks${queryString}`, {
+        const { data: { value: { values } } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks${queryString}`, {
             withCredentials: true,
         });
 
-        this.stateUpdate({ values, pageInfo });
+        this.stateUpdate({ values });
     }
 
     async fetchOne(id) {
