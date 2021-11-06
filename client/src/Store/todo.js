@@ -6,6 +6,10 @@ const axios = require('axios').default;
 const moment = require('moment');
 
 class ToDo {
+    queryString = '';
+
+    search = '';
+
     todos = [];
 
     todo = {
@@ -20,6 +24,7 @@ class ToDo {
 
     constructor() {
         makeObservable(this, {
+            search: observable,
             todos: observable,
             todo: observable,
             aToDo: computed,
@@ -36,6 +41,7 @@ class ToDo {
             toggleBookmark: action,
             togglePriority: action,
             updateDueDate: action,
+            setSearch: action,
         });
     }
 
@@ -53,20 +59,23 @@ class ToDo {
         }
     }
 
-    async fetch(path) {
-        let queryString = '';
-        if (path === 'bookmarks') {
-            queryString = '?filter=bookmarked';
-        } else if (path === 'today') {
-            const date = moment(new Date());
-
-            queryString = `?filter=dueDate:gte:${date.startOf('D').valueOf()},dueDate:lte:${date.endOf('D').valueOf()}`;
-        }
-        const { data: { value: { values } } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks${queryString}`, {
+    async getAxiosCall(uri) {
+        const { data: { value: { values } } } = await axios.get(uri, {
             withCredentials: true,
         });
 
         this.stateUpdate({ values });
+    }
+
+    async fetch(path) {
+        if (path === 'bookmarks') {
+            this.queryString = '&filter=bookmarked';
+        } else if (path === 'today') {
+            const date = moment(new Date());
+
+            this.queryString = `&filter=dueDate:gte:${date.startOf('D').valueOf()},dueDate:lte:${date.endOf('D').valueOf()}`;
+        }
+        this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${this.queryString}`);
     }
 
     async fetchOne(id) {
@@ -155,6 +164,15 @@ class ToDo {
             value,
             values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)),
         });
+    }
+
+    async setSearch(search) {
+        this.search = search;
+        if (!search) {
+            this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${this.queryString}`);
+        } else {
+            this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${search}${this.queryString}`);
+        }
     }
 
     get completed() {

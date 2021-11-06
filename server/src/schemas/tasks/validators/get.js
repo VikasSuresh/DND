@@ -5,7 +5,7 @@ module.exports = celebrate({
         page: Joi.number().default(0),
         size: Joi.number().default(100),
         all: Joi.bool().default(false),
-        search: Joi.string(),
+        search: Joi.string().allow(''),
         filter: Joi.string(),
         sort: Joi.string(),
     }),

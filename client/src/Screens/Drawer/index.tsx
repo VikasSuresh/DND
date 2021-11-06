@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
@@ -27,7 +28,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { Notification } from '../../Components';
-import { User as Store } from '../../Store';
+import { User as Store, Todo as TodosStore } from '../../Store';
 
 const drawerWidth = 240;
 
@@ -155,6 +156,12 @@ export function MiniDrawer(props:any) {
         setOpen(false);
     };
 
+    const submitSearch = (e:any) => {
+        if (e.key === 'Enter') {
+            TodosStore.setSearch(e.target.value);
+        }
+    };
+
     const menuId = 'primary-search-account-menu';
 
     return (
@@ -193,6 +200,7 @@ export function MiniDrawer(props:any) {
                                 input: classes.inputInput,
                             }}
                             inputProps={{ 'aria-label': 'search' }}
+                            onKeyDown={submitSearch}
                         />
                     </div>
                     <div className={classes.grow} />
