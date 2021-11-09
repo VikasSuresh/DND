@@ -5,6 +5,7 @@ import { MiniDrawer } from './Drawer';
 import Sign from './Sign';
 import Profile from './Profile';
 import NotFound from './NotFound';
+import Calendar from './Calendar';
 
 export {
     Home,
@@ -13,4 +14,5 @@ export {
     Sign,
     Profile,
     NotFound,
+    Calendar,
 };

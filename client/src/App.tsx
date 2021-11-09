@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import {
-    Home, Left, Sign, Right, Profile, NotFound,
+    Home, Left, Sign, Right, Profile, NotFound, Calendar,
 } from './Screens';
 import { Loading } from './Components';
 
@@ -62,6 +62,15 @@ const App = observer(() => {
                                     <Home path="tasks" handleDrawerOpen={properties} {...props} />
                                 )}
                                 />
+                            </Left>
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/calendar"
+                        render={() => (
+                            <Left>
+                                <Calendar />
                             </Left>
                         )}
                     />
