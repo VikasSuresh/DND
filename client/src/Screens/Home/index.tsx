@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { Todo as Store } from '../../Store';
-import { AddTask, ListTask } from '../../Components';
+import { AddTask, ListTask, SortTask } from '../../Components';
 
 // interface Task {
 //     task: string,
@@ -76,6 +76,7 @@ export const Home = observer((props:any) => {
 
     return (
         <div>
+            <SortTask />
             <AddTask addToDo={submit.bind(this)} />
             <div className="accordion" id="accordionPanelsStayOpenExample">
                 <div className="accordion-item" onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, 'Not')}>

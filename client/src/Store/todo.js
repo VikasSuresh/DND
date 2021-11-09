@@ -10,6 +10,8 @@ class ToDo {
 
     search = '';
 
+    sort = '';
+
     todos = [];
 
     todo = {
@@ -42,6 +44,7 @@ class ToDo {
             togglePriority: action,
             updateDueDate: action,
             setSearch: action,
+            setSort: action,
         });
     }
 
@@ -68,6 +71,8 @@ class ToDo {
     }
 
     async fetch(path) {
+        const page = 0;
+        const size = 10;
         if (path === 'bookmarks') {
             this.queryString = '&filter=bookmarked';
         } else if (path === 'today') {
@@ -173,6 +178,11 @@ class ToDo {
         } else {
             this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${search}${this.queryString}`);
         }
+    }
+
+    async setSort(sort) {
+        this.sort = sort;
+        this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${this.search}${this.queryString}&sort=${this.sort}`);
     }
 
     get completed() {
