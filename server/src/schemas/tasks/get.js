@@ -35,11 +35,11 @@ const get = async (req, res, next) => {
         return res.status(200).send({
             success: true,
             value: {
-                page_info: {
+                pageInfo: {
                     page,
                     count: data.length,
-                    total_count: count,
-                    total_pages: Math.ceil(count / size),
+                    totalCount: count,
+                    totalPages: Math.ceil(count / size),
                 },
                 values: Output(data),
             },

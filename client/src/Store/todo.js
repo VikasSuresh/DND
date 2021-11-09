@@ -12,6 +12,11 @@ class ToDo {
 
     sort = '';
 
+    page={
+        currentPage: 0,
+        totalPageCount: 0,
+    };
+
     todos = [];
 
     todo = {
@@ -45,12 +50,16 @@ class ToDo {
             updateDueDate: action,
             setSearch: action,
             setSort: action,
+            setPage: action,
         });
     }
 
     stateUpdate({
-        value, values, add,
+        value, values, add, pageInfo,
     }) {
+        if (pageInfo) {
+            this.page.totalPageCount = pageInfo.totalPages;
+        }
         if (values) {
             this.todos = values;
         }
@@ -63,16 +72,14 @@ class ToDo {
     }
 
     async getAxiosCall(uri) {
-        const { data: { value: { values } } } = await axios.get(uri, {
+        const { data: { value: { values, pageInfo } } } = await axios.get(uri, {
             withCredentials: true,
         });
 
-        this.stateUpdate({ values });
+        this.stateUpdate({ values, pageInfo });
     }
 
     async fetch(path) {
-        const page = 0;
-        const size = 10;
         if (path === 'bookmarks') {
             this.queryString = '&filter=bookmarked';
         } else if (path === 'today') {
@@ -80,7 +87,7 @@ class ToDo {
 
             this.queryString = `&filter=dueDate:gte:${date.startOf('D').valueOf()},dueDate:lte:${date.endOf('D').valueOf()}`;
         }
-        this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${this.queryString}`);
+        this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?page=${this.page.currentPage}&search=${this.queryString}`);
     }
 
     async fetchOne(id) {
@@ -174,15 +181,20 @@ class ToDo {
     async setSearch(search) {
         this.search = search;
         if (!search) {
-            this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${this.queryString}`);
+            this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?page=${this.page.currentPage}&search=${this.queryString}`);
         } else {
-            this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${search}${this.queryString}`);
+            this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?page=${this.page.currentPage}&search=${search}${this.queryString}`);
         }
     }
 
     async setSort(sort) {
         this.sort = sort;
-        this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?search=${this.search}${this.queryString}&sort=${this.sort}`);
+        this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?page=${this.page.currentPage}&search=${this.search}${this.queryString}&sort=${this.sort}`);
+    }
+
+    async setPage(page) {
+        this.page.currentPage = page;
+        this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?page=${this.page.currentPage}&search=${this.search}${this.queryString}&sort=${this.sort}`);
     }
 
     get completed() {

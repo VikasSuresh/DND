@@ -3,7 +3,9 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { Todo as Store } from '../../Store';
-import { AddTask, ListTask, SortTask } from '../../Components';
+import {
+    AddTask, ListTask, SortTask, Pagination,
+} from '../../Components';
 
 // interface Task {
 //     task: string,
@@ -132,6 +134,7 @@ export const Home = observer((props:any) => {
                     </div>
                 </div>
             </div>
+            <Pagination />
         </div>
     );
 });
