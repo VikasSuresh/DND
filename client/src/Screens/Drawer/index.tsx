@@ -20,13 +20,14 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import {
+    Bookmarks, DateRange, ListAlt, Today,
+} from '@material-ui/icons';
 import { Notification } from '../../Components';
 import { User as Store, Todo as TodosStore } from '../../Store';
 
@@ -271,19 +272,19 @@ export function MiniDrawer(props:any) {
                 </div>
                 <List>
                     <ListItem button key="Today" component="a" href="/">
-                        <ListItemIcon><InboxIcon /></ListItemIcon>
+                        <ListItemIcon><Today /></ListItemIcon>
                         <ListItemText primary="Today" />
                     </ListItem>
                     <ListItem button key="Bookmarked" component="a" href="/bookmarks">
-                        <ListItemIcon><MailIcon /></ListItemIcon>
+                        <ListItemIcon><Bookmarks /></ListItemIcon>
                         <ListItemText primary="Bookmarked" />
                     </ListItem>
                     <ListItem button key="Calendar" component="a" href="/calendar">
-                        <ListItemIcon><InboxIcon /></ListItemIcon>
+                        <ListItemIcon><DateRange /></ListItemIcon>
                         <ListItemText primary="Calendar" />
                     </ListItem>
                     <ListItem button key="Tasks" component="a" href="/tasks">
-                        <ListItemIcon><MailIcon /></ListItemIcon>
+                        <ListItemIcon><ListAlt /></ListItemIcon>
                         <ListItemText primary="Tasks" />
                     </ListItem>
                 </List>
