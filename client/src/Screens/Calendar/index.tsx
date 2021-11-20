@@ -5,6 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import moment from 'moment';
 import { Todo as Store } from '../../Store';
 
 const properties = {
@@ -21,7 +22,7 @@ const properties = {
         list: 'List',
     },
     addEvent: () => {
-        prompt('hi');
+
     },
 };
 
@@ -33,7 +34,13 @@ const Calendar = observer((props:any) => {
         Store.fetch(props.path);
     }, []);
 
-    const events = Store.todos.map((todo) => ({
+    const events = Store.month ? Store.todos.map((todo) => ({
+        id: todo._id,
+        title: todo.name,
+        start: todo.createdAt,
+        end: moment(todo.end).add(1, 'd').toISOString(),
+        allDay: true,
+    })) : Store.todos.map((todo) => ({
         id: todo._id,
         title: todo.name,
         start: todo.createdAt,
@@ -43,6 +50,15 @@ const Calendar = observer((props:any) => {
 
     return (
         <FullCalendar
+            viewDidMount={
+                (e) => {
+                    if (e.view.type.indexOf('Day') !== -1) {
+                        Store.setMonth(false);
+                    } else {
+                        Store.setMonth(true);
+                    }
+                }
+            }
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             height="85vh"
@@ -56,7 +72,8 @@ const Calendar = observer((props:any) => {
                     },
                     dayGridWeek: {
                         dayHeaderFormat: {
-                            weekday: 'long', day: 'numeric',
+                            weekday: 'long',
+                            day: 'numeric',
                         },
                     },
                 }
@@ -69,9 +86,10 @@ const Calendar = observer((props:any) => {
                 }
             }
             selectable
-            eventClick={addEvent}
             select={addEvent}
-            dragScroll
+            editable
+            dayMaxEvents
+            eventResizableFromStart
         />
     );
 });

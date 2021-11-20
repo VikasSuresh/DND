@@ -17,6 +17,8 @@ class ToDo {
         totalPageCount: 0,
     };
 
+    month=true;
+
     todos = [];
 
     todo = {
@@ -32,6 +34,7 @@ class ToDo {
     constructor() {
         makeObservable(this, {
             search: observable,
+            month: observable,
             todos: observable,
             todo: observable,
             aToDo: computed,
@@ -51,6 +54,7 @@ class ToDo {
             setSearch: action,
             setSort: action,
             setPage: action,
+            setMonth: action,
         });
     }
 
@@ -195,6 +199,10 @@ class ToDo {
     async setPage(page) {
         this.page.currentPage = page;
         this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?page=${this.page.currentPage}&search=${this.search}${this.queryString}&sort=${this.sort}`);
+    }
+
+    async setMonth(bool) {
+        this.month = bool;
     }
 
     get completed() {
