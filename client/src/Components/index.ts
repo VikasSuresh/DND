@@ -7,6 +7,7 @@ import { default as Notify } from './Notification';
 import Load from './Loading';
 import Sort from './Sort';
 import Page from './Pagination';
+import EventModal from './EventModal';
 import * as Bookmark from './Bookmark';
 import * as Completed from './Completed';
 import * as Priority from './Priority';
@@ -19,6 +20,7 @@ export const Notification = Notify;
 export const Loading = Load;
 export const SortTask = Sort;
 export const Pagination = Page;
+export const AddEvent = EventModal;
 
 export const Icons = {
     ...Bookmark,

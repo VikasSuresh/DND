@@ -47,6 +47,7 @@ class ToDo {
             fetchOne: action,
             addToDo: action,
             updateOne: action,
+            updateDate: action,
             toggleToDo: action,
             toggleBookmark: action,
             togglePriority: action,
@@ -171,6 +172,20 @@ class ToDo {
 
     async updateDueDate(task) {
         const { data: { value } } = await axios.put(`${process.env.REACT_APP_SERVER_API}/tasks/${task._id}`, {
+            dueDate: task.dueDate,
+        }, {
+            withCredentials: true,
+        });
+
+        this.stateUpdate({
+            value,
+            values: this.todos.map((el) => (el._id.toString() === value._id.toString() ? value : el)),
+        });
+    }
+
+    async updateDate(task) {
+        const { data: { value } } = await axios.put(`${process.env.REACT_APP_SERVER_API}/tasks/${task._id}`, {
+            start: task.start,
             dueDate: task.dueDate,
         }, {
             withCredentials: true,
