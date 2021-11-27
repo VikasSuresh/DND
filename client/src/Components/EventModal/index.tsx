@@ -7,16 +7,14 @@ import moment from 'moment';
 export default function FormDialog({ handleClose, task, Store }:any) {
     const [taskName, setTaskName] = useState('');
     const submit = () => {
-        if (taskName && task.start && task.dueDate) {
-            if (task.id) {
-                Store.updateOne({ id: task.id, name: taskName });
-            } else {
-                Store.addToDo({
-                    name: taskName,
-                    start: moment(task.start).format(),
-                    dueDate: moment(task.dueDate).subtract(1).endOf('d').format(),
-                });
-            }
+        if (task.id) {
+            Store.updateOne({ _id: task.id, name: taskName });
+        } else if (taskName && task.start && task.dueDate) {
+            Store.addToDo({
+                name: taskName,
+                start: moment(task.start).format(),
+                dueDate: moment(task.dueDate).subtract(1).endOf('d').format(),
+            });
         }
     };
 
