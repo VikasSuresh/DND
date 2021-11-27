@@ -70,7 +70,7 @@ const App = observer(() => {
                         path="/calendar"
                         render={() => (
                             <Left>
-                                <Calendar />
+                                <Calendar path="calendar" />
                             </Left>
                         )}
                     />

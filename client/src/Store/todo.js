@@ -91,6 +91,8 @@ class ToDo {
             const date = moment(new Date());
 
             this.queryString = `&filter=dueDate:gte:${date.startOf('D').valueOf()},dueDate:lte:${date.endOf('D').valueOf()}`;
+        } else if (path === 'calendar') {
+            this.queryString = `&month=${new Date()}`;
         }
         this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?page=${this.page.currentPage}&search=${this.queryString}`);
     }
