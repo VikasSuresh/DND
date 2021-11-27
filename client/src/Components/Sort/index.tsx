@@ -14,8 +14,10 @@ const sort = () => (
             Sort
         </button>
         <ul className="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton1">
-            <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('createdAt:asc')}>Created: Asc</button></li>
-            <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('createdAt:desc')}>Created: Desc</button></li>
+            <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('start:asc')}>Start: Asc</button></li>
+            <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('start:desc')}>Start: Desc</button></li>
+            <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('dueDate:asc')}>End: Asc</button></li>
+            <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('dueDate:desc')}>End: Desc</button></li>
             <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('updatedAt:asc')}>Updated: Asc</button></li>
             <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('updatedAt:desc')}>Updated: Desc</button></li>
             <li><button className="dropdown-item" type="button" onClick={() => Store.setSort('bookmarked:desc')}>Bookmarked</button></li>

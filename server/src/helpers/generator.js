@@ -14,7 +14,7 @@ const validDate = (date) => {
 module.exports = (others) => {
     let { filter, sort } = others;
 
-    const allowed = ['completed', 'bookmarked', 'priority', 'expired', 'dueDate', 'createdAt', 'updatedAt'];
+    const allowed = ['completed', 'bookmarked', 'priority', 'expired', 'dueDate', 'start', 'updatedAt'];
 
     if (filter) {
         filter = filter.split(',');
