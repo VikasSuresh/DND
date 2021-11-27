@@ -16,7 +16,6 @@ const post = async (req, res, next) => {
         if (body.dueDate) {
             date.dueDate = moment(body.dueDate);
             const hours = date.dueDate.diff(moment(new Date()), 'hours');
-            if (hours < 0) throw new Error('Wrong Date');
             date.priority = hours <= 3 ? true : body.priority;
         }
 

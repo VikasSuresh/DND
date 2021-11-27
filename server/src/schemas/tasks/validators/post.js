@@ -8,5 +8,6 @@ module.exports = celebrate({
         completed: Joi.boolean().default(false),
         priority: Joi.boolean().default(false),
         dueDate: Joi.date().default(moment(new Date()).endOf('day')),
+        start: Joi.date().default(moment(new Date()).startOf('day')),
     }).required(),
 });

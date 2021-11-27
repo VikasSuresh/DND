@@ -10,5 +10,6 @@ module.exports = celebrate({
         completed: Joi.boolean(),
         priority: Joi.boolean(),
         dueDate: Joi.date(),
+        start: Joi.date(),
     }).required(),
 });

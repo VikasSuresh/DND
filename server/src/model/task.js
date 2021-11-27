@@ -17,6 +17,10 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    start: {
+        type: Date,
+        required: true,
+    },
     dueDate: {
         type: Date,
         required: true,
