@@ -8,6 +8,6 @@ module.exports = celebrate({
         search: Joi.string().allow(''),
         filter: Joi.string(),
         sort: Joi.string().allow(''),
-        month: Joi.date(),
+        duration: Joi.string(),
     }),
 });

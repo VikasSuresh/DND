@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -25,13 +25,10 @@ const properties = {
     },
 };
 
-const Calendar = observer((props:any) => {
+const Calendar = observer(() => {
     const {
         headerToolbar, buttonText,
     } = properties;
-    useEffect(() => {
-        Store.fetch(props.path);
-    }, []);
 
     const [task, createTask] = useState({
         id: null,
@@ -105,7 +102,10 @@ const Calendar = observer((props:any) => {
                         },
                     }
                 }
-                events={events}
+                events={(fetchInfo, successCallback) => {
+                    Store.fetchEvents(fetchInfo);
+                    successCallback(events);
+                }}
                 eventTimeFormat={
                     {
                         hour: 'numeric',

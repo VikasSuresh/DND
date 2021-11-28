@@ -9,7 +9,7 @@ const get = async (req, res, next) => {
         const { userId } = req.state;
 
         const {
-            page, size, search, month, ...rest
+            page, size, search, duration, ...rest
         } = req.query;
 
         const { filter, sort } = Generator(rest);
@@ -28,9 +28,11 @@ const get = async (req, res, next) => {
             };
         }
 
-        if (month) {
-            const start = moment(month).startOf('month');
-            const end = moment(month).endOf('month');
+        if (duration) {
+            const split = duration.split('|');
+
+            const start = moment(split[ 0 ]);
+            const end = moment(split[ 1 ]);
 
             const data = await Task
                 .find({
@@ -51,6 +53,7 @@ const get = async (req, res, next) => {
                     ],
                 })
                 .lean();
+
             return res.status(200).send({
                 success: true,
                 value: {

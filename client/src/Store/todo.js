@@ -19,6 +19,8 @@ class ToDo {
 
     month=true;
 
+    current='';
+
     todos = [];
 
     todo = {
@@ -45,6 +47,7 @@ class ToDo {
             stateUpdate: action,
             fetch: action,
             fetchOne: action,
+            fetchEvents: action,
             addToDo: action,
             updateOne: action,
             updateDate: action,
@@ -91,8 +94,6 @@ class ToDo {
             const date = moment(new Date());
 
             this.queryString = `&filter=dueDate:gte:${date.startOf('D').valueOf()},dueDate:lte:${date.endOf('D').valueOf()}`;
-        } else if (path === 'calendar') {
-            this.queryString = `&month=${new Date()}`;
         }
         this.getAxiosCall(`${process.env.REACT_APP_SERVER_API}/tasks?page=${this.page.currentPage}&search=${this.queryString}`);
     }
@@ -103,6 +104,22 @@ class ToDo {
         });
 
         this.stateUpdate({ value });
+    }
+
+    async fetchEvents(timespan) {
+        // eslint-disable-next-line no-param-reassign
+        timespan = `${timespan.startStr}|${timespan.endStr}`;
+        if (this.current !== timespan) {
+            this.current = timespan;
+            const { data: { value: { values } } } = await axios.get(`${process.env.REACT_APP_SERVER_API}/tasks`, {
+                params: {
+                    duration: timespan,
+                },
+                withCredentials: true,
+            });
+
+            this.stateUpdate({ values });
+        }
     }
 
     async addToDo(task) {
